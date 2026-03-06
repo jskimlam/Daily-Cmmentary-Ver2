@@ -1,2 +1,2 @@
-# Global-AN-PLANT-STATUS
-Global AN PLANT STATUS
+# Daily Commentary Ver.2
+Daily Commentary Ver.2
