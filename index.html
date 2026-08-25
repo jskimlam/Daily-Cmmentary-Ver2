@@ -99,6 +99,33 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
 .text-bold{font-weight:800;}
 .no-data{padding:40px;text-align:center;color:#999;font-size:13px;}
 
+
+
+/* ── 데일리 한눈에 보기 ── */
+.daily-summary-wrap{background:var(--white);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh);overflow:hidden;}
+.daily-summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;background:#111827;color:#fff;border-bottom:1px solid #000;}
+.daily-summary-title{font-size:15px;font-weight:900;letter-spacing:.02em;}
+.daily-summary-sub{font-family:var(--mono);font-size:10px;color:#D1D5DB;white-space:nowrap;}
+.daily-summary-scroll{overflow-x:auto;}
+.daily-summary-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff;min-width:980px;}
+.daily-summary-table col.sum-prod{width:155px;}
+.daily-summary-table col.sum-price{width:92px;}
+.daily-summary-table col.sum-change{width:86px;}
+.daily-summary-table col.sum-dir{width:92px;}
+.daily-summary-table col.sum-text{width:auto;}
+.daily-summary-table td{border-right:1px solid #111;border-bottom:1px solid #111;padding:9px 10px;vertical-align:middle;}
+.daily-summary-table tr:last-child td{border-bottom:none;}
+.daily-summary-table td:last-child{border-right:none;}
+.sum-prod-name{font-family:Georgia,'Times New Roman',serif;font-size:13px;font-weight:700;text-align:center;color:#111;}
+.sum-num{font-family:var(--mono);font-size:13px;font-weight:800;text-align:center;white-space:nowrap;}
+.sum-move{text-align:center;font-size:12px;font-weight:900;line-height:1.35;white-space:nowrap;}
+.sum-up{color:var(--up);}.sum-dn{color:var(--dn);}.sum-flt{color:var(--flt);}
+.sum-comment{font-size:12px;line-height:1.55;color:#111;font-weight:600;word-break:keep-all;}
+.sum-factors{margin-top:3px;font-size:11.5px;line-height:1.5;font-weight:800;word-break:keep-all;}
+.sum-factor{display:block;}
+.sum-factor::before{content:'• ';}
+.sum-empty{padding:22px;text-align:center;color:var(--g4);font-size:12px;}
+
 /* ── 주간 테이블 ── */
 .wk-wrap{background:var(--white);border:1px solid var(--bd);border-radius:14px;padding:20px;box-shadow:var(--sh);}
 .wk-title{font-family:var(--sans);font-size:16px;font-weight:900;letter-spacing:.02em;color:var(--g1);margin-bottom:14px;}
@@ -138,6 +165,11 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
   body{background:#fff;}
   .hdr{position:static;box-shadow:none;}
   .hdr-right,.sidebar,.wk-wrap{display:none;}
+  .daily-summary-wrap{box-shadow:none;border-radius:0;}
+  .daily-summary-head{padding:8px 10px;}
+  .daily-summary-table{min-width:0;}
+  .daily-summary-table td{padding:5px 6px;}
+  .sum-comment,.sum-factors{font-size:9px;line-height:1.35;}
   .layout{padding:10px;flex-direction:row;}
   .main{width:100%;}
   .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;}
@@ -152,6 +184,7 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
 }
 
 /* ── 반응형 ── */
+/* ── 모바일 (갤럭시 S25 등) ── */
 @media(max-width:480px){
   .hdr-inner{height:auto;flex-direction:column;padding:15px 16px;gap:15px;}
   .copyright-text{display:block;border-left:none;padding-left:0;margin-left:0;margin-top:5px;font-size:11px;text-align:center;}
@@ -159,22 +192,34 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
   .layout{padding:16px 12px;flex-direction:column;}
   .sidebar{width:100%;}
   .grid4{grid-template-columns:1fr;}
+  /* 가격 숫자 + 변동가격/변동률 모바일 최적화 */
   .p-val{font-size:32px;}
   .d-abs{font-size:13px;}
   .card-price{flex-wrap:wrap;gap:4px;}
+  .daily-summary-head{padding:11px 12px;}
+  .daily-summary-title{font-size:14px;}
+  .daily-summary-sub{font-size:9px;}
+  .daily-summary-table{min-width:850px;}
+  .daily-summary-table td{padding:7px 8px;}
+  .sum-comment{font-size:11px;}
+  .sum-factors{font-size:10.5px;}
 }
+/* ── 태블릿 / 폴드 접힌 화면 ── */
 @media(min-width:481px) and (max-width:1024px){
   .grid4{grid-template-columns:1fr 1fr;}
   .layout{padding:20px 20px;}
   .sidebar{width:200px;}
 }
+/* ── 폴드7 펼친 화면 (~1024px 세로형 태블릿) ── */
 @media(min-width:768px) and (max-width:1024px){
   .hdr-inner{padding:0 16px;height:56px;}
   .hdr-title{font-size:15px;}
   .copyright-text{font-size:11px;}
+  /* 사이드바를 상단으로 올려 전체 폭 활용 */
   .layout{padding:16px 16px 60px;flex-direction:column;gap:14px;}
   .sidebar{width:100%;flex-direction:row;align-items:center;gap:12px;}
   .arc-select-wrap{max-width:280px;}
+  /* 2컬럼 그리드, 전체 폭 활용 */
   .grid4{grid-template-columns:repeat(2,1fr);gap:14px;}
   .p-val{font-size:38px;}
   .card-prod{font-size:20px;}
@@ -229,6 +274,15 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
         <button class="btn btn-outline" onclick="copyMsg()">💬 메신저</button>
       </div>
     </div>
+    <section class="daily-summary-wrap" id="daily-summary-wrap">
+      <div class="daily-summary-head">
+        <div class="daily-summary-title">DAILY MARKET SUMMARY</div>
+        <div class="daily-summary-sub"><span id="daily-summary-date">—</span> · COMMENTARY + 핵심 FACTOR 자동선별</div>
+      </div>
+      <div class="daily-summary-scroll">
+        <div id="daily-summary"><div class="sum-empty">요약 데이터 없음</div></div>
+      </div>
+    </section>
     <div class="grid4" id="grid"></div>
     <div class="wk-wrap">
       <div class="wk-title">📊 주간 가격 요약 <span id="wk-label" style="font-size:11px;color:#6b7280;margin-left:8px;"></span></div>
@@ -294,6 +348,7 @@ function selDate(d){
   document.getElementById('arc-selected-label').textContent=d;
   document.getElementById('arc-dropdown').classList.remove('show');
   document.getElementById('grid').innerHTML=PRODS.map(p=>renderCard(p,(allData[p]||[]).find(e=>e.date===d),d)).join('');
+  safeBuildDailySummary();
   buildArc();
   buildWkTable();
   buildMiniWkTable();
@@ -351,31 +406,206 @@ function renderCard(prod,entry,date){
   </div>`;
 }
 
+
+// ── 데일리 상단 요약 ──
+function escHtml(v){
+  return String(v==null?'':v).replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
+}
+
+// ── 상단 Summary 자동 선별 로직 ──
+// 원문을 다시 읽는 것이 아니라, 이미 파싱되어 저장된 commentary / factors 안에서
+// 가격 움직임을 가장 잘 설명하는 문장과 핵심 요인 1~2개를 자동 선별한다.
+function splitSummaryText(txt){
+  let clean=String(txt||'')
+    .replace(/<br\s*\/?>/gi,'\n')
+    .replace(/\r/g,'')
+    .replace(/[•*]/g,'-')
+    .trim();
+  if(!clean)return[];
+
+  // 구형/모바일 브라우저 호환을 위해 lookbehind 정규식 사용 금지
+  clean=clean.replace(/([.!?])\s+/g,'$1\n');
+  return clean
+    .split(/\n+|\s+\/\s+/)
+    .map(x=>x.replace(/^-\s*/,'').trim())
+    .filter(x=>x.length>=8);
+}
+
+function textSimilarity(a,b){
+  const toks=s=>new Set(String(s||'').toLowerCase()
+    .replace(/[^0-9a-z가-힣$%]+/g,' ')
+    .split(/\s+/).filter(x=>x.length>=2));
+  const A=toks(a),B=toks(b);
+  if(!A.size||!B.size)return 0;
+  let same=0;A.forEach(x=>{if(B.has(x))same++;});
+  return same/Math.min(A.size,B.size);
+}
+
+function summaryScore(s,prod,dir,isFactor=false){
+  let score=0;
+  const t=String(s||'');
+
+  // 실제 가격 변동의 원인 설명에 높은 가중치
+  const coreKw=['수요','공급','재고','가동','생산','정기보수','셧다운','수입','수출','오퍼','현물','선물','매수','매도','마진','원가','유가','나프타','벤젠','원료','제재','중동','호르무즈','관세','프리미엄','타이트','증산','감산','차익실현','달러'];
+  const causalKw=['영향','때문','따라','로 인해','부담','지지','압력','우려','확대','축소','증가','감소','상승','하락','강세','약세','타이트','완화'];
+  coreKw.forEach(k=>{if(t.includes(k))score+=2;});
+  causalKw.forEach(k=>{if(t.includes(k))score+=1.2;});
+
+  // 숫자/가격/증감 수치가 있는 문장은 정보 밀도가 높다고 판단
+  if(/[+$]?[0-9][0-9,.]*\s*(?:%|달러|위안|mt|톤|배럴|USD)?/i.test(t))score+=2;
+
+  // 해당 일자의 방향과 맞는 표현 우대
+  const upKw=['상승','강세','증가','타이트','부족','감산','재고 감소','프리미엄 상승','매수'];
+  const dnKw=['하락','약세','감소','과잉','증산','재고 증가','차익실현','매도','수요 부진'];
+  const fltKw=['보합','관망','제한적','혼조','좁은 범위','균형'];
+  const dirKws=dir==='상승'?upKw:dir==='하락'?dnKw:fltKw;
+  dirKws.forEach(k=>{if(t.includes(k))score+=1.8;});
+
+  // 품목 고유 키워드
+  const prodKw={
+    WTI:['WTI','원유','브렌트','OPEC','이란','호르무즈','재무부','제재'],
+    Benzene:['벤젠','Benzene','BZ','나프타','재고','Sinopec','FOB Korea'],
+    Styrene:['스티렌','Styrene','SM','벤젠','PS','ABS','CFR China','수출'],
+    Butadiene:['부타디엔','Butadiene','BD','합성고무','크래커','CFR China','선물']
+  };
+  (prodKw[prod]||[]).forEach(k=>{if(t.toLowerCase().includes(k.toLowerCase()))score+=1;});
+
+  // 전망성 문장은 데일리 Summary 원인란에서는 감점
+  if(/전망|예상|향후|앞으로|가능성|것으로 보/.test(t))score-=isFactor?1:2;
+  // 지나치게 일반적인 문장 감점
+  if(t.length<25)score-=1;
+  return score;
+}
+
+function trimSummaryText(s,max=165){
+  s=String(s||'').replace(/\s+/g,' ').trim();
+  if(s.length<=max)return s;
+  const cut=s.lastIndexOf(' ',max);
+  return (cut>80?s.slice(0,cut):s.slice(0,max))+'…';
+}
+
+function pickSummaryCommentary(txt,prod,dir,max=165){
+  const items=splitSummaryText(txt);
+  if(!items.length)return'';
+  const ranked=items.map((s,i)=>({s,i,score:summaryScore(s,prod,dir,false)}))
+    .sort((a,b)=>b.score-a.score||a.i-b.i);
+  let best=ranked[0].s;
+  // 너무 짧은 핵심문장은 다음 고득점 문장과 자연스럽게 결합
+  if(best.length<60 && ranked[1] && textSimilarity(best,ranked[1].s)<0.55){
+    const joined=best+' '+ranked[1].s;
+    if(joined.length<=max+25)best=joined;
+  }
+  return trimSummaryText(best,max);
+}
+
+function pickSummaryFactors(txt,prod,dir,commentary,limit=2){
+  const items=splitSummaryText(txt);
+  if(!items.length)return[];
+
+  const ranked=items
+    .map((s,i)=>({s,i,score:summaryScore(s,prod,dir,true)}))
+    .filter(x=>textSimilarity(x.s,commentary)<0.62) // 코멘터리와 거의 같은 내용 제거
+    .sort((a,b)=>b.score-a.score||a.i-b.i);
+
+  const selected=[];
+  for(const x of ranked){
+    if(selected.some(y=>textSimilarity(y,x.s)>=0.58))continue; // 요인끼리 중복 제거
+    selected.push(x.s);
+    if(selected.length>=limit)break;
+  }
+
+  // 요인이 있으면 최소 1개, 정보성이 충분할 때만 두 번째 요인 노출
+  if(selected.length>1){
+    const secondItem=ranked.find(x=>x.s===selected[1]);
+    const secondScore=secondItem?secondItem.score:0;
+    if(secondScore<2.5)selected.splice(1);
+  }
+  return selected.map(x=>trimSummaryText(x,125));
+}
+
+function safeBuildDailySummary(){
+  try{
+    buildDailySummary();
+  }catch(err){
+    console.error('Daily summary render error:',err);
+    const box=document.getElementById('daily-summary');
+    const dateEl=document.getElementById('daily-summary-date');
+    if(dateEl)dateEl.textContent=curDate||'—';
+    if(box)box.innerHTML='<div class="sum-empty">요약 표시 오류 · 상세 데이터는 정상 로드됩니다.</div>';
+  }
+}
+
+function buildDailySummary(){
+  const box=document.getElementById('daily-summary');
+  const dateEl=document.getElementById('daily-summary-date');
+  if(!box)return;
+  if(dateEl)dateEl.textContent=curDate||'—';
+
+  const order=['WTI','Benzene','Styrene','Butadiene'];
+  const names={WTI:'Crude Oil (WTI)',Benzene:'Benzene',Styrene:'Styrene',Butadiene:'Butadiene'};
+  const existing=order.map(p=>({p,e:(allData[p]||[]).find(x=>x.date===curDate)})).filter(x=>x.e);
+  if(existing.length===0){box.innerHTML='<div class="sum-empty">선택 날짜의 요약 데이터가 없습니다.</div>';return;}
+
+  const rows=existing.map(({p,e})=>{
+    const dir=e.direction==='상승'?'up':e.direction==='하락'?'dn':'flt';
+    const dirCls='sum-'+dir;
+    const priceDigits=p==='WTI'?2:2;
+    const chg=e.change==null?'—':(Number(e.change)>0?'+':'')+Number(e.change).toFixed(2);
+    const pct=e.changePct==null?'—':(Number(e.changePct)>0?'+':'')+Number(e.changePct).toFixed(2)+'%';
+    const comment=pickSummaryCommentary(e.commentary,p,e.direction,165);
+    const factors=pickSummaryFactors(e.factors,p,e.direction,comment,2);
+    const factorHtml=factors.length
+      ?`<div class="sum-factors ${dirCls}">${factors.map(f=>`<span class="sum-factor">${escHtml(f)}</span>`).join('')}</div>`
+      :'';
+    return `<tr>
+      <td><div class="sum-prod-name">${names[p]}</div></td>
+      <td class="sum-num ${dirCls}">${Number(e.price).toLocaleString('en-US',{minimumFractionDigits:priceDigits,maximumFractionDigits:priceDigits})}</td>
+      <td class="sum-num ${dirCls}">${chg}</td>
+      <td class="sum-move ${dirCls}">${escHtml(e.direction||'보합')}<br>(${pct})</td>
+      <td><div class="sum-comment">${escHtml(comment||'코멘터리 없음')}</div>${factorHtml}</td>
+    </tr>`;
+  }).join('');
+
+  box.innerHTML=`<table class="daily-summary-table">
+    <colgroup><col class="sum-prod"><col class="sum-price"><col class="sum-change"><col class="sum-dir"><col class="sum-text"></colgroup>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
 // ── 주간 테이블 ──
+// 날짜 → 'YYYY.MM.DD' 포맷 헬퍼
 function fmtD(dt){
   return dt.getFullYear()+'.'+String(dt.getMonth()+1).padStart(2,'0')+'.'+String(dt.getDate()).padStart(2,'0');
 }
+// ISO 주차 계산
 function getISOWeek(dt){
   const d=new Date(Date.UTC(dt.getFullYear(),dt.getMonth(),dt.getDate()));
   d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));
   const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
-  return 'W'+String(Math.ceil((((d-yearStart)/86400000)+1)/7)).padStart(2,'0');
+  return'W'+String(Math.ceil((((d-yearStart)/86400000)+1)/7)).padStart(2,'0');
 }
+// 선택 날짜 기준 주간 날짜 컬럼 생성: 전주금(1) + 당주 월~금(5) = 6개 평일 고정
 function getWeekColumns(dateStr){
   const parts=dateStr.split('.');
   const d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
-  const dow=d.getDay();
+  const dow=d.getDay(); // 0=일,1=월,...,5=금,6=토
+  // 해당 주 금요일 계산 (토=6이면 다음주 금요일)
   const diffToFri=dow===6?6:(5-dow+7)%7;
   const fri=new Date(d); fri.setDate(d.getDate()+diffToFri);
+  // 전주 금요일
   const prevFri=new Date(fri); prevFri.setDate(fri.getDate()-7);
+  // 전주금 + 당주 월~금 = 6개 날짜 생성
   const cols=[];
-  cols.push(fmtD(prevFri));
+  cols.push(fmtD(prevFri)); // 전주 금요일
+  // 당주 월요일 = 전주금 + 3일
   const mon=new Date(prevFri); mon.setDate(prevFri.getDate()+3);
   for(let i=0;i<5;i++){
     const day=new Date(mon); day.setDate(mon.getDate()+i);
-    cols.push(fmtD(day));
+    cols.push(fmtD(day)); // 월~금
   }
-  return {cols, weekLabel:getISOWeek(fri), from:fmtD(prevFri), to:fmtD(fri)};
+  return{cols, weekLabel:getISOWeek(fri), from:fmtD(prevFri), to:fmtD(fri)};
 }
 
 function buildWkTable(){
@@ -383,11 +613,13 @@ function buildWkTable(){
   const tbody=document.getElementById('wk-tbody');
   if(!thead||!tbody)return;
 
+  // 기준 날짜: curDate 없으면 allDates[0]
   const base=curDate||allDates[0]||'';
   let weekDates;
   if(base){
-    const {cols,weekLabel,from,to}=getWeekColumns(base);
-    weekDates=cols;
+    const{cols,weekLabel,from,to}=getWeekColumns(base);
+    weekDates=cols; // 데이터 유무와 무관하게 6개 컬럼 고정
+    // 주간 타이틀 업데이트
     const titleEl=document.getElementById('wk-label');
     if(titleEl)titleEl.textContent=weekLabel+' ('+from.slice(5)+' → '+to.slice(5)+')';
   } else {
@@ -399,6 +631,7 @@ function buildWkTable(){
     const cells=weekDates.map(d=>{
       const e=(allData[p]||[]).find(x=>x.date===d);
       if(!e)return'<td style="color:#ccc;">—</td>';
+      // changePct 부호 기준으로 색상 결정: 양수=레드, 음수=블루, 0=검정
       const dir=e.changePct>0?'up':e.changePct<0?'dn':'flt';
       return`<td class="wt-${dir}">${e.price.toFixed(1)}<br><span style="font-size:10px;">${e.changePct>=0?'+':''}${e.changePct.toFixed(1)}%</span></td>`;
     });
@@ -406,6 +639,7 @@ function buildWkTable(){
   }).join('');
 }
 
+// ── 사이드바 미니 주간 테이블 (전치: 날짜 6행 × 품목 4열) ──
 function buildMiniWkTable(){
   const thead=document.getElementById('mini-wk-thead');
   const tbody=document.getElementById('mini-wk-tbody');
@@ -414,13 +648,16 @@ function buildMiniWkTable(){
   const base=curDate||allDates[0]||'';
   if(!base){thead.innerHTML='';tbody.innerHTML='';return;}
 
-  const {cols,weekLabel}=getWeekColumns(base);
+  const{cols,weekLabel,from,to}=getWeekColumns(base);
 
+  // 타이틀 업데이트
   const labelEl=document.getElementById('mini-wk-label');
   if(labelEl)labelEl.textContent=weekLabel;
 
+  // 헤더: 품목명 4개
   thead.innerHTML='<th>날짜</th>'+PRODS.map(p=>`<th>${p==='Butadiene'?'BD':p==='Styrene'?'SM':p==='Benzene'?'BZ':p}</th>`).join('');
 
+  // 바디: 날짜 6행, 각 행에 품목별 가격+변동률
   tbody.innerHTML=cols.map(d=>{
     const cells=PRODS.map(p=>{
       const e=(allData[p]||[]).find(x=>x.date===d);
@@ -428,6 +665,7 @@ function buildMiniWkTable(){
       const dir=e.changePct>0?'up':e.changePct<0?'dn':'flt';
       return`<td class="wt-${dir}">${e.price.toFixed(0)}<br><span style="font-size:8px;">${e.changePct>=0?'+':''}${e.changePct.toFixed(1)}%</span></td>`;
     });
+    // 전주금 강조 표시
     const isFirst=d===cols[0];
     const dateLabel=d.slice(5);
     return`<tr${isFirst?' style="background:var(--g7);"':''}><td style="font-size:9px;${isFirst?'font-weight:900;':''}">${dateLabel}</td>${cells.join('')}</tr>`;
@@ -556,43 +794,71 @@ async function delEntry(prod,date){
 }
 
 // ── 파싱 ──
-// WTI / SM / BZ / BD 공통 structured briefing 파서
+// ── WTI: 일반 뉴스 기사 파싱 ──
+function parseWTI(txt){
+  const f={};let m;
+  m=txt.match(/(?:하락한|오른|밀린|내린|상승한)\s*배럴당\s*([\d.]+)달러/);if(m)f.price=parseFloat(m[1]);
+  if(!f.price){m=txt.match(/배럴당\s*([\d.]+)달러에\s*(?:거래|마감|체결)/);if(m)f.price=parseFloat(m[1]);}
+  if(!f.price){m=txt.match(/(?:오른|밀린|하락한|상승한|내린)\s*([\d.]+)달러에\s*(?:마감|거래|체결)/);if(m)f.price=parseFloat(m[1]);}
+  m=txt.match(/([\d.]+)달러\(([\d.]+)%\)\s*(?:하락|내린|밀린|떨어진)/);
+  if(m){f.change=-parseFloat(m[1]);f.pct=-parseFloat(m[2]);}
+  if(!f.change){m=txt.match(/([\d.]+)달러\(([\d.]+)%\)\s*(?:상승|오른|올라)/);if(m){f.change=parseFloat(m[1]);f.pct=parseFloat(m[2]);}}
+  if(!f.pct){m=txt.match(/([\d.]+)%\s*(하락|상승)/);if(m)f.pct=m[2]==='하락'?-parseFloat(m[1]):parseFloat(m[1]);}
+  if(!f.change&&f.price&&f.pct){const prev=f.price/(1+f.pct/100);f.change=parseFloat((f.price-prev).toFixed(2));}
+  // 날짜 파싱
+  let aY=null,aMo=null;
+  const ymM=txt.match(/(\d{4})[년.\-\/]\s*(\d{1,2})[월.\-\/]/);
+  if(ymM){aY=parseInt(ymM[1]);aMo=parseInt(ymM[2]);}
+  const trM=txt.match(/(\d{1,2})일\s+(?:소폭\s*)?(?:하락|상승|마감|거래|체결)/);
+  if(trM&&aY&&aMo){f.dateStr=`${aY}-${String(aMo).padStart(2,'0')}-${String(parseInt(trM[1])).padStart(2,'0')}`;}
+  else{
+    const lcM=txt.match(/(\d{1,2})일\s*\(현지시간\)/);
+    if(lcM&&aY&&aMo){
+      let day=parseInt(lcM[1])+1,mo=aMo,yr=aY;const mx=new Date(yr,mo,0).getDate();
+      if(day>mx){day=1;mo=mo%12+1;if(mo===1)yr++;}
+      f.dateStr=`${yr}-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    }else{
+      const fdM=txt.match(/(\d{4})[年년.\-\/]\s*(\d{1,2})[月월.\-\/]\s*(\d{1,2})/);
+      if(fdM)f.dateStr=`${fdM[1]}-${fdM[2].padStart(2,'0')}-${fdM[3].padStart(2,'0')}`;
+    }
+  }
+  // WTI 코멘터리: 자동생성
+  if(f.price&&f.pct!=null){
+    const ps=f.pct>=0?'+':'';const as=f.change!=null?`${f.change>=0?'+':''}${f.change.toFixed(2)} USD, `:'';
+    const dir=(f.pct||0)>0?'상승':(f.pct||0)<0?'하락':'보합';
+    f.commentary=`WTI는 ${as}${ps}${f.pct.toFixed(2)}% 변동하여 배럴당 $${f.price.toFixed(2)}에 ${dir} 마감했다.`;
+  }
+  // WTI 변동요인/전망: 뉴스 기사 추출
+  const dir=(f.pct||0)>0?'상승':(f.pct||0)<0?'하락':'보합';
+  f.factors=extractFactors(txt,dir);
+  f.outlook=extractOutlook(txt);
+  return f;
+}
+
+// ── SM/BZ/BD: 구조화된 브리핑 양식 파싱 ──
+// 양식: "1. 가격" / "2. 코멘터리" / "3. 변동요인" / "4. 결론 및 전망"
 function parseBriefing(txt, prod){
   const f={};
 
+  // ** 마크다운 볼드 제거 (있든 없든 동일하게 파싱)
   txt=txt.replace(/\*\*/g,'');
 
-  // 날짜 추출
-  let dm=txt.match(/(\d{4})[\-.\/](\d{1,2})[\-.\/](\d{1,2})/);
-  if(dm){
-    f.dateStr=dm[1]+'-'+dm[2].padStart(2,'0')+'-'+dm[3].padStart(2,'0');
-  }
+  // 날짜: 본문 어디에 있든 YYYY-MM-DD / YYYY.MM.DD / YYYY/MM/DD 허용
+  const dm=txt.match(/(\d{4})[.\/-](\d{1,2})[.\/-](\d{1,2})/);
+  if(dm)f.dateStr=dm[1]+'-'+dm[2].padStart(2,'0')+'-'+dm[3].padStart(2,'0');
 
-  const lines=txt
-    .split('\n')
-    .map(l=>l.trim())
-    .filter(l=>l.length>0);
+  // 라인 배열 (빈 줄 제거)
+  const lines=txt.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
 
-  function normalizeSectionName(line){
-    return line.replace(/\s+/g,'').replace(/[：:]/g,'');
-  }
-
+  // 섹션 추출: 소제목 키워드 포함 라인 다음부터 다음 "N." 시작 전까지
   function getSection(keyword){
-    const keys=Array.isArray(keyword)?keyword:[keyword];
-    const normalizedKeys=keys.map(k=>k.replace(/\s+/g,''));
-    const si=lines.findIndex(l=>{
-      const nl=normalizeSectionName(l);
-      return normalizedKeys.some(k=>nl.includes(k));
-    });
+    const si=lines.findIndex(l=>l.includes(keyword));
     if(si<0)return[];
-
-    const stopWords=['가격','코멘터리','변동요인','변둉요인','결론및전망','기타추가정보','전문가코멘트'];
-
     const result=[];
+    const stopWords=['결론 및 전망','기타 추가 정보','전문가 코멘트'];
     for(let i=si+1;i<lines.length;i++){
-      const nl=normalizeSectionName(lines[i]);
       if(/^\d+\./.test(lines[i]))break;
-      if(stopWords.some(sw=>nl.includes(sw)))break;
+      if(stopWords.some(sw=>lines[i].includes(sw)))break;
       result.push(lines[i]);
     }
     return result;
@@ -605,119 +871,84 @@ function parseBriefing(txt, prod){
       .filter(l=>l.length>0);
   }
 
-  function findPriceLine(sectionLines, prod){
-    if(!sectionLines || sectionLines.length===0)return '';
-
-    const patternsByProd={
-      WTI:[/NYMEX/i,/WTI/i,/Crude/i],
-      Styrene:[/CFR\s*China/i,/FOB\s*Korea/i,/Styrene/i],
-      Benzene:[/FOB\s*Korea/i,/Benzene/i],
-      Butadiene:[/CFR\s*China/i,/FOB\s*Korea/i,/Butadiene/i,/BD/i]
-    };
-
-    const pats=patternsByProd[prod]||[];
-    for(const line of sectionLines){
-      if(pats.some(re=>re.test(line)))return line;
-    }
-    return sectionLines[0] || '';
-  }
-
-  function parsePrice(line, prod){
-    const r={};
-    if(!line)return r;
-
-    // 가격
-    let pm=line.match(/\$([\d,]+(?:\.\d+)?)\s*\/\s*(mt|bbl|b)/i);
-    if(pm){
-      r.price=parseFloat(pm[1].replace(/,/g,''));
-    }
-
-    // 전일비
-    let chgM=line.match(/전일\s*대비\s*([+-])\s*\$?\s*([\d.]+)/);
-    if(chgM){
-      r.change=(chgM[1]==='-'?-1:1)*parseFloat(chgM[2]);
-    }
-
-    if(r.change==null){
-      chgM=line.match(/전일\s*대비\s*([+-]?)(\d+(?:\.\d+)?)(?:\s*USD)?(?:[,\s]|$)/i);
-      if(chgM){
-        const sign=chgM[1]==='-'?-1:1;
-        r.change=sign*parseFloat(chgM[2]);
-      }
-    }
-
-    // 방향
-    const dirM=line.match(/(상승|하락|보합)/);
-    if(dirM){
-      r.dir=dirM[1];
-    }
-
-    if(!r.dir && r.change!=null){
-      r.dir=r.change===0?'보합':r.change>0?'상승':'하락';
-    }
-
-    if(r.price!=null && r.change!=null){
-      const prev=r.price-r.change;
-      if(prev!==0){
-        r.pct=parseFloat(((r.change/prev)*100).toFixed(2));
-      }else{
-        r.pct=0;
-      }
-    }
-
-    return r;
-  }
-
+  // ── 1. 가격 파싱 ──
   const sec1=getSection('가격');
-  const priceLine=findPriceLine(sec1,prod);
-  Object.assign(f, parsePrice(priceLine, prod));
+  const productKeywords={
+    WTI:['WTI','NYMEX'],
+    Styrene:['CFR China','Styrene','SM'],
+    Benzene:['FOB Korea','Benzene','BZ'],
+    Butadiene:['CFR China','CFR NEA','Butadiene','BD']
+  };
+  const keys=productKeywords[prod]||[prod];
+  const priceLine=sec1.find(l=>keys.some(k=>l.includes(k))) || sec1[0] || '';
 
-  if(!f.dir)f.dir=(f.change||0)===0?'보합':(f.change||0)>0?'상승':'하락';
+  if(priceLine){
+    // 가격: $972.00/mt, $1,270/mt, $65.42/bbl, $65.42/b 모두 허용
+    const pm=priceLine.match(/\$\s*([\d,]+(?:\.\d+)?)\s*\/(?:mt|bbl|b)\b/i);
+    if(pm)f.price=parseFloat(pm[1].replace(/,/g,''));
 
-  const b2=getBullets(getSection('코멘터리'));
-  if(b2.length>0){
-    f.commentary=b2[0];
-  }else if(f.price!=null){
-    const ps=(f.pct||0)>=0?'+':'';
-    let marketLabel='';
-    let unitLabel='';
-
-    if(prod==='WTI'){
-      marketLabel='(NYMEX)';
-      unitLabel='배럴당';
-    }else if(prod==='Benzene'){
-      marketLabel='(FOB Korea)';
-      unitLabel='톤당';
-    }else if(prod==='Styrene'){
-      marketLabel='(CFR China)';
-      unitLabel='톤당';
-    }else if(prod==='Butadiene'){
-      marketLabel='(CFR China)';
-      unitLabel='톤당';
+    // 전일비: 전일대비 +$3.00 / -$0.21 / 0 / +3.00 모두 허용
+    let chgM=priceLine.match(/전일\s*대비\s*([+-])\s*\$?\s*([\d.]+)/);
+    if(chgM){
+      f.change=(chgM[1]==='-'?-1:1)*parseFloat(chgM[2]);
+    }
+    if(f.change==null){
+      chgM=priceLine.match(/전일\s*대비\s*(?:\$\s*)?([+-]?\d+(?:\.\d+)?)(?:\s*\/|[,\s]|$)/);
+      if(chgM){
+        f.change=parseFloat(chgM[1]);
+      }
     }
 
-    f.commentary=`${prod}${marketLabel}는 ${ps}${(f.pct||0).toFixed(2)}% 변동하여 ${unitLabel} $${f.price.toFixed(2)}에 ${f.dir} 마감했다.`;
+    // 변동률 직접 표기 허용: (+1.23%), -0.55%, 0%
+    const pctM=priceLine.match(/([+-]?\d+(?:\.\d+)?)%/);
+    if(pctM)f.pct=parseFloat(pctM[1]);
+
+    // 방향: 텍스트 명시 우선, 없으면 수치 기준
+    const dirM=priceLine.match(/(상승|하락|보합)/);
+    if(dirM)f.dir=dirM[1];
   }
 
-  let b3=getBullets(getSection(['변동요인','변둉요인']));
+  // 변동률 계산
+  if(f.pct==null && f.price!=null && f.change!=null){
+    f.pct=f.change===0?0:parseFloat((f.change/(f.price-f.change)*100).toFixed(2));
+  }
+  if(!f.dir)f.dir=(f.change||0)===0?'보합':(f.pct||0)>0?'상승':'하락';
+
+  // ── 2. 코멘터리 ──
+  const b2=getBullets(getSection('코멘터리'));
+  if(b2.length>0)f.commentary=b2[0];
+  else if(f.price!=null){
+    const ps=(f.pct||0)>=0?'+':'';
+    const label=prod==='WTI'?'(NYMEX)':prod==='Benzene'?'(FOB Korea)':prod==='Butadiene'?'(CFR China / NEA)':'(CFR China)';
+    const unit=prod==='WTI'?'배럴당':'톤당';
+    f.commentary=prod+label+'는 '+ps+(f.pct||0).toFixed(2)+'% 변동하여 '+unit+' $'+f.price.toFixed(2)+'에 '+f.dir+' 마감했다.';
+  }
+
+  // ── 3. 변동요인 (오타 "변둉요인"도 포함) ──
+  let b3=getBullets(getSection('변동요인'));
+  if(b3.length===0)b3=getBullets(getSection('변둉요인'));
   if(b3.length>0)f.factors=b3.join('\n');
 
-  const b4=getBullets(getSection('결론및전망'));
+  // ── 4. 결론 및 전망 ──
+  const b4=getBullets(getSection('결론 및 전망'));
   if(b4.length>0)f.outlook=b4[0];
 
   return f;
 }
 
+
 function doParse(){
   const p=activeTab,txt=(document.getElementById('ta-'+p)||{}).value?.trim();
   if(!txt){showSt(p,'warn','텍스트 없음 — 수동 입력 모드');return;}
 
+  // 제품별 파싱 분기
   const f=parseBriefing(txt,p);
 
+  // 공통 필드 적용
   if(f.dateStr)document.getElementById(`f-date-${p}`).value=f.dateStr;
   const dir=f.dir||(((f.pct||0)>0)?'상승':((f.pct||0)<0)?'하락':'보합');
   document.getElementById(`f-dir-${p}`).value=dir;
-  if(f.price!=null)document.getElementById(`f-price-${p}`).value=f.price.toFixed(2);
+  if(f.price)document.getElementById(`f-price-${p}`).value=f.price.toFixed(2);
   if(f.change!=null)document.getElementById(`f-change-${p}`).value=f.change.toFixed(2);
   if(f.pct!=null)document.getElementById(`f-pct-${p}`).value=f.pct.toFixed(2);
   if(f.commentary)document.getElementById(`f-co-${p}`).value=f.commentary;
@@ -725,11 +956,52 @@ function doParse(){
   if(f.outlook)document.getElementById(`f-ou-${p}`).value=f.outlook;
 
   tabDone[p]=true;updDots();
-  const ok=f.price!=null && f.pct!=null;
+  const ok=f.price&&f.pct!=null;
   showSt(p,ok?'ok':'warn',ok
     ?`✓ ${p} $${(f.price||0).toFixed(2)} (${(f.pct||0)>=0?'+':''}${(f.pct||0).toFixed(2)}%) ${dir}`
     :'수치 일부 파싱 실패 — 수동 확인');
 }
+function splitSents(txt){
+  return txt.split(/(?<=[다습니다까요었다]\.)\s+|(?<=다\.\s)|(?<=\n)/)
+    .map(s=>s.trim()).filter(s=>s.length>10&&s.length<250);
+}
+function trimSent(s,max=120){
+  if(!s)return'';
+  s=s.replace(/^[^가-힣a-zA-Z$\d"]+/,'').trim();
+  if(s.length<=max)return s;
+  const cut=s.lastIndexOf(' ',max);
+  return(cut>50?s.slice(0,cut):s.slice(0,max))+'…';
+}
+function extractFactors(txt,dir){
+  const ss=splitSents(txt);
+  // 하락요인: OPEC증산, 재고증가, 이란합의, 달러강세, 경기침체 등
+  const bearKw=['증산','재고 증가','이란','합의','달러 강세','경기침체','수요 감소','공급 과잉'];
+  // 상승요인: 감산, 재고감소, 중동긴장, 달러약세, 호르무즈 등
+  const bullKw=['감산','재고 감소','중동','항모','호르무즈','달러 약세','저가 매수','수요 증가'];
+  const kws=dir==='하락'?bearKw:dir==='상승'?bullKw:[...bearKw,...bullKw];
+  const found=[];
+  for(const kw of kws){
+    const s=ss.find(x=>x.includes(kw)&&!found.includes(x));
+    if(s&&found.length<2)found.push(trimSent(s,100));
+  }
+  return found.join(' / ');
+}
+function extractOutlook(txt){
+  const ss=splitSents(txt);
+  const pp=[
+    /전망이다/,/예상된다/,/보일 것/,/것으로 보인다/,/것으로 예상/,
+    /할 것이라/,/될 것으로/,/이어질 것/,/지속될/,/주목된다/,
+    /향후/,/앞으로/
+  ];
+  for(const p of pp){
+    const s=ss.find(x=>p.test(x));
+    if(s)return trimSent(s,120);
+  }
+  // 마지막 문장 fallback
+  if(ss.length>0)return trimSent(ss[ss.length-1],120);
+  return null;
+}
+
 
 // ── 유틸 ──
 function toast(m,t){
@@ -739,6 +1011,7 @@ function toast(m,t){
   setTimeout(()=>e.className='',3000);
 }
 function dlImage(){
+  // 임시로 grid를 4컬럼 가로 레이아웃으로 강제 후 캡처
   const el=document.getElementById('grid');
   const origStyle=el.style.cssText;
   el.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:1400px;';
@@ -750,13 +1023,114 @@ function dlImage(){
 }
 function copyMsg(){
   if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
-  const lines=PRODS.map(p=>{
-    const e=(allData[p]||[]).find(x=>x.date===curDate);
-    if(!e)return null;
-    const arr=e.direction==='상승'?'▲':e.direction==='하락'?'▼':'━';
-    return `[${p}] $${e.price.toFixed(2)} ${arr}${(e.changePct>=0?'+':'')+e.changePct.toFixed(2)}%`;
-  }).filter(Boolean);
-  navigator.clipboard.writeText(curDate+'\n'+lines.join('\n')).then(()=>toast('✅ 클립보드 복사 완료','ok'));
+
+  const shortName={WTI:'WTI',Styrene:'SM',Benzene:'BZ',Butadiene:'BD'};
+  const marketName={
+    WTI:'WTI 8월물 / NYMEX',
+    Styrene:'SM / CFR China',
+    Benzene:'BZ / FOB Korea',
+    Butadiene:'BD / CFR China'
+  };
+  const symbol={상승:'▲',하락:'▼',보합:'━'};
+  const unitText={WTI:'$/bbl',Styrene:'$/MT',Benzene:'$/MT',Butadiene:'$/MT'};
+  const krUnit={WTI:'배럴당',Styrene:'톤당',Benzene:'톤당',Butadiene:'톤당'};
+
+  function fmtNum(v,d=2){
+    if(v==null||isNaN(v))return'-';
+    return Number(v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+  }
+  function fmtSigned(v,d=2,suffix=''){
+    if(v==null||isNaN(v))return'-';
+    const n=Number(v);
+    return (n>0?'+':'')+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})+suffix;
+  }
+  function cleanText(v){
+    return String(v||'').replace(/<br\s*\/?>/gi,'\n').replace(/\r/g,'').trim();
+  }
+  function bulletLines(v){
+    const txt=cleanText(v);
+    if(!txt)return[];
+    return txt.split(/\n+|\s+\/\s+/).map(x=>x.replace(/^[•\-\*]\s*/,'').trim()).filter(Boolean);
+  }
+
+  const existing=PRODS.map(p=>({prod:p,entry:(allData[p]||[]).find(x=>x.date===curDate)})).filter(x=>x.entry);
+  if(existing.length===0){toast('복사할 데이터가 없습니다','err');return;}
+
+  const header=[];
+  header.push('📌 Daily Chemical Brief ('+curDate+')');
+  header.push('created by JSKIM of LAM');
+  header.push('');
+  header.push('■ 가격 요약');
+  existing.forEach(({prod:p,entry:e})=>{
+    const sym=symbol[e.direction]||'━';
+    const chg=fmtSigned(e.change,2,' USD');
+    const pct=fmtSigned(e.changePct,2,'%');
+    header.push('- '+shortName[p]+': $'+fmtNum(e.price,2)+' '+unitText[p]+' ('+sym+' '+chg+', '+pct+')');
+  });
+
+  const detail=[];
+  existing.forEach(({prod:p,entry:e})=>{
+    const sym=symbol[e.direction]||'━';
+    const chg=fmtSigned(e.change,2,' USD');
+    const pct=fmtSigned(e.changePct,2,'%');
+    detail.push('');
+    detail.push('━━━━━━━━━━━━━━');
+    detail.push('['+shortName[p]+'] '+marketName[p]);
+    detail.push('가격: $'+fmtNum(e.price,2)+' '+unitText[p]);
+    detail.push('전일대비: '+sym+' '+chg+' / '+pct+' / '+(e.direction||'보합'));
+
+    if(e.commentary){
+      detail.push('');
+      detail.push('코멘터리');
+      detail.push(cleanText(e.commentary));
+    }else{
+      detail.push('');
+      detail.push('코멘터리');
+      detail.push(shortName[p]+'는 '+krUnit[p]+' $'+fmtNum(e.price,2)+'에 '+(e.direction||'보합')+' 마감했다.');
+    }
+
+    const factors=bulletLines(e.factors);
+    if(factors.length>0){
+      detail.push('');
+      detail.push('변동요인');
+      factors.forEach(x=>detail.push('• '+x));
+    }
+
+    if(e.outlook){
+      detail.push('');
+      detail.push('전망');
+      detail.push(cleanText(e.outlook));
+    }
+  });
+
+  const msg=header.concat(detail).join('\n');
+
+  function fallbackCopy(text){
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.setAttribute('readonly','');
+    ta.style.position='fixed';
+    ta.style.left='-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      const ok=document.execCommand('copy');
+      document.body.removeChild(ta);
+      if(ok)toast('✅ 카카오톡 보고용 상세 내용 복사 완료','ok');
+      else toast('❌ 클립보드 복사 실패','err');
+    }catch(e){
+      document.body.removeChild(ta);
+      toast('❌ 클립보드 복사 실패','err');
+    }
+  }
+
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(msg)
+      .then(()=>toast('✅ 카카오톡 보고용 상세 내용 복사 완료','ok'))
+      .catch(()=>fallbackCopy(msg));
+  }else{
+    fallbackCopy(msg);
+  }
 }
 
 loadData();
