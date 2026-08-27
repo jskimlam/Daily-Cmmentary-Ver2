@@ -19,7 +19,10 @@
   --wti:#DC2626; --sm:#7C3AED; --bz:#0369A1; --bd2:#047857;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;max-width:100%;overflow-x:hidden;}
 body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100vh;-webkit-font-smoothing:antialiased;}
+img,canvas,svg,video{max-width:100%;height:auto;}
+table{max-width:100%;}
 
 /* ── 헤더 ── */
 .hdr{background:var(--white);border-bottom:3px solid var(--lotte);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.08);}
@@ -55,7 +58,8 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
 .mini-wk-table td.wt-up{color:var(--up)!important;font-weight:700;}
 .mini-wk-table td.wt-dn{color:var(--dn)!important;font-weight:700;}
 .mini-wk-table td.wt-flt{color:var(--flt)!important;font-weight:700;}
-.main{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px;}
+.main{flex:1;min-width:0;max-width:100%;display:flex;flex-direction:column;gap:18px;}
+.main>*{min-width:0;max-width:100%;}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
 
 /* ── 아카이브 드롭다운 ── */
@@ -116,15 +120,154 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
 .daily-summary-table td{border-right:1px solid #111;border-bottom:1px solid #111;padding:9px 10px;vertical-align:middle;}
 .daily-summary-table tr:last-child td{border-bottom:none;}
 .daily-summary-table td:last-child{border-right:none;}
-.sum-prod-name{font-family:Georgia,'Times New Roman',serif;font-size:13px;font-weight:700;text-align:center;color:#111;}
-.sum-num{font-family:var(--mono);font-size:13px;font-weight:800;text-align:center;white-space:nowrap;}
-.sum-move{text-align:center;font-size:12px;font-weight:900;line-height:1.35;white-space:nowrap;}
+/* Summary 정보 계층: 품목/가격/변동/코멘터리 = 동일 크기·굵기, Factor = 가장 작게 */
+.sum-prod-name{font-family:Georgia,'Times New Roman',serif;font-size:14px;font-weight:900;text-align:center;color:#111;}
+.sum-num{font-family:var(--mono);font-size:14px;font-weight:900;text-align:center;white-space:nowrap;}
+.sum-move{text-align:center;font-size:14px;font-weight:900;line-height:1.35;white-space:nowrap;}
 .sum-up{color:var(--up);}.sum-dn{color:var(--dn);}.sum-flt{color:var(--flt);}
-.sum-comment{font-size:12px;line-height:1.55;color:#111;font-weight:600;word-break:keep-all;}
-.sum-factors{margin-top:3px;font-size:11.5px;line-height:1.5;font-weight:800;word-break:keep-all;}
+.sum-comment{font-size:14px;line-height:1.55;color:#111;font-weight:900;word-break:keep-all;}
+.sum-factors{margin-top:5px;font-size:11px;line-height:1.5;font-weight:700;word-break:keep-all;}
 .sum-factor{display:block;}
 .sum-factor::before{content:'• ';}
 .sum-empty{padding:22px;text-align:center;color:var(--g4);font-size:12px;}
+
+.sum-manual-badge{display:inline-block;margin-left:6px;padding:1px 5px;border-radius:4px;background:#111827;color:#fff;font-family:var(--mono);font-size:8px;font-weight:900;vertical-align:middle;letter-spacing:.03em;}
+
+#summary-edit-overlay{position:fixed;inset:0;z-index:620;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;}
+#summary-edit-overlay.open{display:flex;}
+#summary-edit-modal{width:920px;max-width:97vw;max-height:94vh;background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.28);}
+.summary-edit-head{padding:18px 22px;background:#111827;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.summary-edit-title{font-size:17px;font-weight:900;}
+.summary-edit-date{font-family:var(--mono);font-size:11px;color:#D1D5DB;margin-top:3px;}
+.summary-edit-body{padding:18px 22px;overflow:auto;background:#F9FAFB;}
+.summary-edit-note{font-size:12px;line-height:1.55;color:#4B5563;background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:10px 12px;margin-bottom:12px;}
+.summary-edit-prod{background:#fff;border:1px solid #D1D5DB;border-radius:10px;padding:14px;margin-bottom:12px;}
+.summary-edit-prod:last-child{margin-bottom:0;}
+.summary-edit-prod-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:14px;font-weight:900;}
+.summary-edit-auto-btn{border:1px solid #D1D5DB;background:#fff;border-radius:6px;padding:5px 8px;font-size:10px;font-weight:800;cursor:pointer;}
+.summary-edit-auto-btn:hover{background:#F3F4F6;}
+.summary-edit-field{margin-bottom:9px;}
+.summary-edit-field:last-child{margin-bottom:0;}
+.summary-edit-field label{display:block;font-size:10px;font-weight:900;color:#6B7280;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.summary-edit-field textarea{width:100%;border:1px solid #D1D5DB;border-radius:7px;padding:9px 10px;font-family:var(--sans);font-size:13px;line-height:1.55;resize:vertical;outline:none;background:#fff;color:#111827;}
+.summary-edit-field textarea:focus{border-color:#111827;box-shadow:0 0 0 2px rgba(17,24,39,.06);}
+.summary-edit-foot{padding:14px 22px;border-top:1px solid #E5E7EB;background:#fff;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+
+
+/* ── 보고 이미지/PDF 전용 가로형 상세 레이아웃 ── */
+/* 실제 화면에는 사용하지 않고, 저장용 캡처 DOM에만 적용 */
+.report-detail-list{
+  width:1400px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:0 0 16px;
+}
+.report-detail-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  background:#fff;
+  border:1px solid #D1D5DB;
+  border-radius:12px;
+  overflow:hidden;
+  min-height:150px;
+  box-shadow:none;
+}
+.report-detail-bar{
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:7px;
+}
+.report-detail-bar.wti{background:var(--wti);}
+.report-detail-bar.sm{background:var(--sm);}
+.report-detail-bar.bz{background:var(--bz);}
+.report-detail-bar.bd{background:var(--bd2);}
+.report-detail-left{
+  padding:17px 18px 15px 24px;
+  border-right:1px solid #E5E7EB;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+}
+.report-detail-prod{
+  font-family:var(--disp);
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+.report-detail-prod.wti{color:var(--wti);}
+.report-detail-prod.sm{color:var(--sm);}
+.report-detail-prod.bz{color:var(--bz);}
+.report-detail-prod.bd{color:var(--bd2);}
+.report-detail-price{
+  font-family:var(--disp);
+  font-size:34px;
+  font-weight:900;
+  line-height:1;
+  margin-bottom:8px;
+}
+.report-detail-change{
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:800;
+  line-height:1.45;
+}
+.report-detail-dir{
+  display:inline-block;
+  margin-top:9px;
+  align-self:flex-start;
+  padding:4px 10px;
+  border-radius:20px;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+.report-detail-dir.up{background:var(--up);}
+.report-detail-dir.dn{background:var(--dn);}
+.report-detail-dir.flt{background:var(--g3);}
+.report-detail-right{
+  display:grid;
+  grid-template-columns:1.15fr 1fr .85fr;
+  min-width:0;
+}
+.report-detail-section{
+  padding:14px 16px;
+  border-right:1px solid #E5E7EB;
+  min-width:0;
+}
+.report-detail-section:last-child{border-right:none;}
+.report-detail-label{
+  display:inline-block;
+  background:var(--highlight-bg);
+  border:1.5px solid #111;
+  border-radius:3px;
+  padding:2px 7px;
+  margin-bottom:7px;
+  font-family:var(--mono);
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.report-detail-text{
+  font-size:11px;
+  line-height:1.5;
+  color:#111;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.report-detail-text.commentary{
+  font-size:12px;
+  font-weight:800;
+}
+.report-detail-text.factors{
+  font-size:10.5px;
+}
+.report-detail-empty{
+  color:#9CA3AF;
+  font-size:10px;
+}
 
 /* ── 주간 테이블 ── */
 .wk-wrap{background:var(--white);border:1px solid var(--bd);border-radius:14px;padding:20px;box-shadow:var(--sh);}
@@ -169,7 +312,9 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
   .daily-summary-head{padding:8px 10px;}
   .daily-summary-table{min-width:0;}
   .daily-summary-table td{padding:5px 6px;}
-  .sum-comment,.sum-factors{font-size:9px;line-height:1.35;}
+  .sum-manual-badge{display:none!important;}
+  .sum-prod-name,.sum-num,.sum-move,.sum-comment{font-size:10px;font-weight:900;line-height:1.35;}
+  .sum-factors{font-size:8px;font-weight:700;line-height:1.3;margin-top:3px;}
   .layout{padding:10px;flex-direction:row;}
   .main{width:100%;}
   .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;}
@@ -201,9 +346,418 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
   .daily-summary-sub{font-size:9px;}
   .daily-summary-table{min-width:850px;}
   .daily-summary-table td{padding:7px 8px;}
-  .sum-comment{font-size:11px;}
-  .sum-factors{font-size:10.5px;}
+  .sum-prod-name,.sum-num,.sum-move,.sum-comment{font-size:13px;font-weight:900;}
+  .sum-factors{font-size:10px;font-weight:700;margin-top:4px;}
+
+
+  /* ── 모바일 DAILY MARKET SUMMARY: 품목별 세로 카드 ── */
+  .daily-summary-wrap{
+    overflow:visible;
+  }
+  .daily-summary-head{
+    align-items:flex-start;
+    gap:4px;
+  }
+  .daily-summary-title{
+    font-size:16px;
+  }
+  .daily-summary-sub{
+    font-size:9px;
+    text-align:left;
+  }
+  .daily-summary-table{
+    display:block;
+    width:100%;
+    border-collapse:separate;
+  }
+  .daily-summary-table colgroup,
+  .daily-summary-table thead{
+    display:none;
+  }
+  .daily-summary-table tbody{
+    display:block;
+    width:100%;
+  }
+  .daily-summary-table tr{
+    display:block;
+    width:100%;
+    margin:0 0 12px;
+    border:1px solid var(--bd);
+    border-radius:10px;
+    background:#fff;
+    overflow:hidden;
+    box-shadow:0 2px 6px rgba(0,0,0,.05);
+  }
+  .daily-summary-table tr:last-child{
+    margin-bottom:0;
+  }
+  .daily-summary-table td{
+    display:block;
+    width:100% !important;
+    text-align:left !important;
+    border-bottom:1px solid var(--g6);
+    padding:8px 12px 8px 82px !important;
+    position:relative;
+    min-height:36px;
+    font-size:13px;
+  }
+  .daily-summary-table td:last-child{
+    border-bottom:none;
+  }
+  .daily-summary-table td::before{
+    content:attr(data-label);
+    position:absolute;
+    left:12px;
+    top:9px;
+    width:58px;
+    font-family:var(--sans);
+    font-size:10px;
+    font-weight:900;
+    color:var(--g3);
+    letter-spacing:.02em;
+  }
+  .daily-summary-table td[data-label="품목"]{
+    padding:11px 12px !important;
+    background:#F9FAFB;
+    border-bottom:2px solid var(--bd);
+  }
+  .daily-summary-table td[data-label="품목"]::before{
+    display:none;
+  }
+  .daily-summary-table td[data-label="시황"]{
+    padding:10px 12px !important;
+  }
+  .daily-summary-table td[data-label="시황"]::before{
+    display:none;
+  }
+  .sum-prod-name,
+  .daily-summary-table .sum-num,
+  .daily-summary-table .sum-move,
+  .sum-comment{
+    font-size:14px !important;
+    font-weight:900 !important;
+  }
+  .sum-comment{
+    line-height:1.55;
+    margin-bottom:5px;
+  }
+  .sum-factors{
+    margin-top:5px;
+  }
+  .sum-factor{
+    display:block;
+    font-size:10px !important;
+    font-weight:700 !important;
+    line-height:1.45;
+    margin-top:2px;
+  }
 }
+
+/* ── 모바일 전체 폭 고정: 어떤 화면에서도 가로 스크롤 금지 ── */
+@media(max-width:767px){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden!important;
+  }
+
+  .hdr,
+  .hdr-inner,
+  .layout,
+  .sidebar,
+  .main,
+  .daily-summary-wrap,
+  .grid4,
+  .wk-wrap,
+  .mini-wk-wrap,
+  .arc-select-wrap{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  .hdr-inner{
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+
+  .hdr-brand,
+  .hdr-title,
+  .hdr-center,
+  .hdr-right{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+
+  .hdr-brand{
+    width:100%;
+    justify-content:center;
+  }
+
+  .hdr-title{
+    text-align:center;
+    justify-content:center;
+    line-height:1.25;
+    overflow-wrap:anywhere;
+  }
+
+  .copyright-text{
+    white-space:normal!important;
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+
+  .hdr-center{
+    width:100%;
+  }
+
+  .hdr-date-nav{
+    width:100%;
+    max-width:260px;
+    margin:0 auto;
+    justify-content:center;
+  }
+
+  .hdr-right{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+
+  .hdr-right .btn{
+    width:100%;
+    min-width:0;
+    padding:9px 5px!important;
+    font-size:11px!important;
+    justify-content:center;
+    white-space:normal!important;
+    line-height:1.2;
+    text-align:center;
+  }
+
+  .layout{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+
+  .sidebar{
+    flex-direction:column!important;
+  }
+
+  .arc-select-wrap{
+    max-width:none!important;
+  }
+
+  .arc-select-btn{
+    max-width:100%;
+    min-width:0;
+  }
+
+  .main > div:first-child{
+    width:100%;
+    min-width:0;
+  }
+
+  #main-date{
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+
+  /* 본문 상단 이미지/PDF/메신저 버튼도 화면 안에서 자동 줄바꿈 */
+  .main > div:first-child > div:last-child{
+    width:100%;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+
+  .main > div:first-child > div:last-child .btn{
+    width:100%;
+    min-width:0;
+    padding:8px 4px!important;
+    font-size:10px!important;
+    justify-content:center;
+    white-space:normal!important;
+    text-align:center;
+    line-height:1.2;
+  }
+
+  /* 모든 카드/텍스트는 부모 폭 안에서 강제 줄바꿈 */
+  .p-card,
+  .card-hdr,
+  .card-price,
+  .section-body-text{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+
+  .section-body-text,
+  .sum-comment,
+  .sum-factor{
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+
+  .card-price{
+    gap:8px;
+  }
+
+  .p-val{
+    min-width:0;
+    max-width:62%;
+    font-size:clamp(27px,9vw,34px)!important;
+    overflow-wrap:anywhere;
+  }
+
+  .d-abs{
+    font-size:clamp(10px,3.4vw,13px)!important;
+  }
+
+  /* Summary는 완전 세로 카드 — 내부 스크롤도 없음 */
+  .daily-summary-wrap{
+    overflow:visible!important;
+  }
+
+  .daily-summary-table{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    table-layout:fixed!important;
+  }
+
+  .daily-summary-table tr,
+  .daily-summary-table td{
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  /* 주간 가격 요약도 좌우 스크롤 없이 화면에 맞춤 */
+  .wk-wrap{
+    overflow:hidden!important;
+    padding:12px 6px!important;
+  }
+
+  .wk-table{
+    width:100%!important;
+    max-width:100%!important;
+    table-layout:fixed!important;
+    font-size:8px!important;
+  }
+
+  .wk-table th,
+  .wk-table td{
+    padding:5px 1px!important;
+    font-size:8px!important;
+    letter-spacing:0!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere;
+    line-height:1.25;
+  }
+
+  .wk-table th:first-child,
+  .wk-table td:first-child{
+    width:18%!important;
+    font-size:8px!important;
+  }
+
+  .wk-table th:not(:first-child),
+  .wk-table td:not(:first-child){
+    width:13.666%!important;
+  }
+
+  .wk-table td span{
+    font-size:7px!important;
+  }
+
+  /* 사이드 주간 요약 역시 화면 폭에 고정 */
+  .mini-wk-wrap{
+    overflow:hidden!important;
+    padding:9px 5px!important;
+  }
+
+  .mini-wk-table{
+    width:100%!important;
+    max-width:100%!important;
+    table-layout:fixed!important;
+  }
+
+  .mini-wk-table th,
+  .mini-wk-table td{
+    padding:3px 1px!important;
+    font-size:8px!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere;
+  }
+
+  .mini-wk-table th:first-child,
+  .mini-wk-table td:first-child{
+    width:24%!important;
+  }
+
+  .mini-wk-table th:not(:first-child),
+  .mini-wk-table td:not(:first-child){
+    width:19%!important;
+  }
+
+  /* 모달도 화면 밖으로 절대 넘지 않도록 */
+  #overlay,
+  #summary-edit-overlay{
+    padding:8px!important;
+    overflow-x:hidden!important;
+  }
+
+  #modal,
+  #summary-edit-modal{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  .m-grid3,
+  .m-grid2{
+    grid-template-columns:1fr!important;
+  }
+
+  .pfield input,
+  .pfield select,
+  .pfield textarea,
+  .summary-edit-field textarea{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+}
+
+/* 초소형 모바일 (320~380px) 추가 압축 */
+@media(max-width:380px){
+  .hdr-right{
+    grid-template-columns:1fr!important;
+  }
+
+  .main > div:first-child > div:last-child{
+    grid-template-columns:1fr!important;
+  }
+
+  .daily-summary-table td{
+    padding-left:70px!important;
+  }
+
+  .daily-summary-table td::before{
+    width:48px!important;
+    font-size:9px!important;
+  }
+
+  .wk-table th,
+  .wk-table td{
+    font-size:7px!important;
+  }
+
+  .wk-table td span{
+    font-size:6px!important;
+  }
+}
+
+
 /* ── 태블릿 / 폴드 접힌 화면 ── */
 @media(min-width:481px) and (max-width:1024px){
   .grid4{grid-template-columns:1fr 1fr;}
@@ -224,7 +778,9 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
   .p-val{font-size:38px;}
   .card-prod{font-size:20px;}
   .section-body-text{font-size:14px;}
-  .wk-wrap{overflow-x:auto;}
+  .wk-wrap{overflow:hidden;}
+  .wk-table{width:100%;max-width:100%;table-layout:fixed;}
+  .wk-table th,.wk-table td{padding-left:5px;padding-right:5px;}
 }
 </style>
 </head>
@@ -247,6 +803,7 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
     </div>
     <div class="hdr-right">
       <button class="btn btn-outline" onclick="loadData()">↺ 새로고침</button>
+      <button class="btn btn-outline" onclick="openSummaryEdit()">✎ 요약 수정</button>
       <button class="btn btn-primary" onclick="openModal()">+ NEW ENTRY</button>
     </div>
   </div>
@@ -269,15 +826,15 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
       <div style="font-family:var(--disp);font-size:28px;font-weight:900;" id="main-date">—</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-outline" onclick="dlImage()">📷 이미지</button>
-        <button class="btn btn-outline" onclick="window.print()">🖨 PDF</button>
+        <button class="btn btn-outline" onclick="dlReportImage()">📷 보고 이미지</button>
+        <button class="btn btn-outline" onclick="dlReportPdf()">🖨 PDF</button>
         <button class="btn btn-outline" onclick="copyMsg()">💬 메신저</button>
       </div>
     </div>
     <section class="daily-summary-wrap" id="daily-summary-wrap">
       <div class="daily-summary-head">
         <div class="daily-summary-title">DAILY MARKET SUMMARY</div>
-        <div class="daily-summary-sub"><span id="daily-summary-date">—</span> · COMMENTARY + 핵심 FACTOR 자동선별</div>
+        <div class="daily-summary-sub"><span id="daily-summary-date">—</span> · 코멘터리 원인 → FACTOR 근거 자동연결</div>
       </div>
       <div class="daily-summary-scroll">
         <div id="daily-summary"><div class="sum-empty">요약 데이터 없음</div></div>
@@ -305,6 +862,31 @@ body{font-family:var(--sans);background:var(--g7);color:var(--g1);min-height:100
     </div>
   </div>
 </div>
+
+<div id="summary-edit-overlay">
+  <div id="summary-edit-modal">
+    <div class="summary-edit-head">
+      <div>
+        <div class="summary-edit-title">DAILY MARKET SUMMARY · 수동 수정</div>
+        <div class="summary-edit-date" id="summary-edit-date">—</div>
+      </div>
+      <button onclick="closeSummaryEdit()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:28px;line-height:1;">&times;</button>
+    </div>
+    <div class="summary-edit-body">
+      <div class="summary-edit-note">
+        자동 선별된 코멘터리와 FACTOR를 기준으로 필요한 부분만 수정합니다. 수동 수정값이 있는 품목은 해당 날짜의 Summary에서 우선 표시되며, 상세 카드의 원본 코멘터리/변동요인은 변경하지 않습니다.
+      </div>
+      <div id="summary-edit-panels"></div>
+    </div>
+    <div class="summary-edit-foot">
+      <button class="btn btn-outline" onclick="resetSummaryDate()">↺ 이 날짜 전체 자동복원</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" onclick="closeSummaryEdit()">취소</button>
+        <button class="btn btn-primary" onclick="saveSummaryEdits()">✓ 요약 수정 저장</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
@@ -322,6 +904,45 @@ function checkAdmin(){
   if(pw==="0111")return true;
   if(pw!==null)alert("비밀번호가 올바르지 않습니다.");
   return false;
+}
+
+
+// ── Summary 수동 수정 저장소 ──
+// 상세 데이터는 건드리지 않고 Summary 표시값만 별도로 저장.
+// 같은 브라우저/같은 사이트 주소에서는 날짜를 다시 열어도 유지된다.
+const SUMMARY_OVERRIDE_STORAGE='DailyChemicalBrief_SummaryOverrides_v1';
+let summaryOverrides=loadSummaryOverrides();
+
+function loadSummaryOverrides(){
+  try{
+    const raw=localStorage.getItem(SUMMARY_OVERRIDE_STORAGE);
+    const parsed=raw?JSON.parse(raw):{};
+    return parsed&&typeof parsed==='object'?parsed:{};
+  }catch(e){
+    console.warn('Summary override load failed:',e);
+    return {};
+  }
+}
+function persistSummaryOverrides(){
+  try{
+    localStorage.setItem(SUMMARY_OVERRIDE_STORAGE,JSON.stringify(summaryOverrides));
+    return true;
+  }catch(e){
+    console.error('Summary override save failed:',e);
+    return false;
+  }
+}
+function getSummaryOverride(date,prod){
+  return summaryOverrides?.[date]?.[prod]||null;
+}
+function setSummaryOverride(date,prod,value){
+  if(!summaryOverrides[date])summaryOverrides[date]={};
+  summaryOverrides[date][prod]=value;
+}
+function deleteSummaryOverride(date,prod){
+  if(!summaryOverrides[date])return;
+  delete summaryOverrides[date][prod];
+  if(Object.keys(summaryOverrides[date]).length===0)delete summaryOverrides[date];
 }
 
 // ── 아카이브 드롭다운 ──
@@ -414,9 +1035,12 @@ function escHtml(v){
   }[ch]));
 }
 
-// ── 상단 Summary 자동 선별 로직 ──
-// 원문을 다시 읽는 것이 아니라, 이미 파싱되어 저장된 commentary / factors 안에서
-// 가격 움직임을 가장 잘 설명하는 문장과 핵심 요인 1~2개를 자동 선별한다.
+// ── 상단 Summary 자동 선별 로직 V4 ──
+// 핵심 원칙:
+// 1) Commentary에서 당일 상승/하락/보합의 "원인"을 먼저 읽는다.
+// 2) Market Factors는 독립 점수순이 아니라 Commentary 원인과 연결되는 항목을 최우선으로 고른다.
+// 3) 같은 원인을 더 구체화하는 숫자·회사·설비·지역·재고·가동률 정보에 가점을 준다.
+// 4) 직접 연결되는 Factor가 없을 때만 일반 시장 중요도 점수를 fallback으로 사용한다.
 function splitSummaryText(txt){
   let clean=String(txt||'')
     .replace(/<br\s*\/?>/gi,'\n')
@@ -425,7 +1049,7 @@ function splitSummaryText(txt){
     .trim();
   if(!clean)return[];
 
-  // 구형/모바일 브라우저 호환을 위해 lookbehind 정규식 사용 금지
+  // 구형/모바일 브라우저 호환: lookbehind 사용하지 않음
   clean=clean.replace(/([.!?])\s+/g,'$1\n');
   return clean
     .split(/\n+|\s+\/\s+/)
@@ -433,50 +1057,160 @@ function splitSummaryText(txt){
     .filter(x=>x.length>=8);
 }
 
+function normSummaryText(v){
+  return String(v||'').toLowerCase()
+    .replace(/[^0-9a-z가-힣%$]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
 function textSimilarity(a,b){
-  const toks=s=>new Set(String(s||'').toLowerCase()
-    .replace(/[^0-9a-z가-힣$%]+/g,' ')
-    .split(/\s+/).filter(x=>x.length>=2));
+  const toks=s=>new Set(normSummaryText(s).split(/\s+/).filter(x=>x.length>=2));
   const A=toks(a),B=toks(b);
   if(!A.size||!B.size)return 0;
   let same=0;A.forEach(x=>{if(B.has(x))same++;});
   return same/Math.min(A.size,B.size);
 }
 
-function summaryScore(s,prod,dir,isFactor=false){
+// 코멘터리 원인과 팩터를 연결하기 위한 시장 개념 사전
+// 여러 표현이 같은 시장 원인을 뜻하면 같은 theme으로 묶는다.
+const SUMMARY_THEMES={
+  supply_tight:['공급 타이트','공급 부족','현물 부족','물량 부족','가용 물량','제한된 공급','공급 제한','공급 우려','타이트','부족','셧다운','정기보수','감산','저율 가동','가동률 하락','생산 감소','생산 차질','크래커 셧다운'],
+  supply_loose:['공급 증가','공급 확대','공급 과잉','증산','생산 증가','가동률 상승','재가동','물량 증가','오퍼 증가'],
+  inventory_down:['재고 감소','재고 하락','재고 축소','재고 소진','낮은 재고','재고 타이트','재고 부족','재고 최저'],
+  inventory_up:['재고 증가','재고 상승','재고 부담','높은 재고','재고 과잉','재고 누적'],
+  demand_strong:['수요 증가','수요 확대','수요 강세','수요 개선','구매 증가','매수 증가','매수세','구매 관심','수입 수요','수출 수요','다운스트림 수요 개선','최종수요 개선'],
+  demand_weak:['수요 부진','수요 약세','수요 감소','구매 부진','매수 부진','관망','구매 관망','최종수요 부진','다운스트림 부진','가격 수용력','구매 활동 제한'],
+  feedstock_up:['원료 상승','원료 강세','원가 상승','원가 강세','벤젠 상승','벤젠 강세','나프타 상승','나프타 강세','원유 상승','유가 상승','업스트림 강세','upstream 강세'],
+  feedstock_down:['원료 하락','원료 약세','원가 하락','벤젠 하락','벤젠 약세','나프타 하락','나프타 약세','원유 하락','유가 하락','업스트림 약세','upstream 약세'],
+  domestic_up:['중국 내수 강세','중국 내수가격 상승','내수 강세','내수 상승','선물 강세','선물 상승','dce 상승','가격 급등'],
+  domestic_down:['중국 내수 약세','중국 내수가격 하락','내수 약세','내수 하락','선물 약세','선물 하락','dce 하락','가격 급락'],
+  export_import:['수출','수입','수출 수요','수입 수요','역외 물량','수출 오퍼','수입 오퍼','인도향','중국향','한국산','일본산'],
+  geopolitical:['중동','이란','호르무즈','제재','지정학','전쟁','공격','봉쇄','통항','홍해','미국·이란','미-이란'],
+  profit_taking:['차익실현','차익 실현','이익 실현','profit taking'],
+  currency_macro:['달러 강세','달러 약세','금리','경기침체','경기 둔화','경기 회복','거시경제','매크로'],
+  margin:['마진','스프레드','채산성','손익','원가 부담','생산 마진'],
+  premium_spread:['프리미엄','백워데이션','백워드','콘탱고','스프레드 확대','스프레드 축소'],
+  offer_trade:['오퍼','비드','거래','협상','현물','spot','스팟','매수','매도','논의가격']
+};
+
+const SUMMARY_STOPWORDS=new Set([
+  '가격','시장','당일','금일','전일','전일대비','마감','마감했다','마감하며','기록','기록했다',
+  '상승','하락','보합','강세','약세','영향','영향으로','따라','때문','때문에','가운데','반면','다만',
+  '지속','확대','축소','수준','형성','거래','보이며','나타내며','이어지며','달러','톤당','배럴당',
+  'cfr','fob','china','korea','wti','styrene','benzene','butadiene','sm','bz','bd'
+]);
+
+function getThemeHits(text){
+  const t=normSummaryText(text);
+  const hits=[];
+  Object.entries(SUMMARY_THEMES).forEach(([theme,words])=>{
+    if(words.some(w=>t.includes(normSummaryText(w))))hits.push(theme);
+  });
+  return hits;
+}
+
+function getCauseTokens(text){
+  const raw=normSummaryText(text);
+  if(!raw)return[];
+  const toks=raw.split(/\s+/)
+    .map(x=>x.trim())
+    .filter(x=>x.length>=2 && !SUMMARY_STOPWORDS.has(x) && !/^\d/.test(x));
+  return [...new Set(toks)].slice(0,30);
+}
+
+// 코멘터리 전체뿐 아니라 '원인 연결어' 주변의 표현에 우선 가중치를 주기 위한 컨텍스트
+function buildCommentaryContext(commentary,prod,dir){
+  const text=String(commentary||'').replace(/\s+/g,' ').trim();
+  const themes=getThemeHits(text);
+  const tokens=getCauseTokens(text);
+
+  // 원인 표현이 자주 등장하는 구간을 별도 추출
+  const clauses=text.split(/(?:하지만|그러나|반면|다만|한편|및|동시에|,|;)/)
+    .map(x=>x.trim()).filter(x=>x.length>=8);
+  const causalClauses=clauses.filter(x=>/영향|때문|따라|로 인해|지지|부담|압력|우려|견인|끌어올|끌어내|차익실현|타이트|부진|강세|약세/.test(x));
+  const causeText=(causalClauses.length?causalClauses:clauses).join(' ');
+  const causeThemes=getThemeHits(causeText);
+  const causeTokens=getCauseTokens(causeText);
+
+  return {text,prod,dir,themes,tokens,causeThemes,causeTokens};
+}
+
+function baseMarketScore(s,prod,dir){
   let score=0;
   const t=String(s||'');
-
-  // 실제 가격 변동의 원인 설명에 높은 가중치
-  const coreKw=['수요','공급','재고','가동','생산','정기보수','셧다운','수입','수출','오퍼','현물','선물','매수','매도','마진','원가','유가','나프타','벤젠','원료','제재','중동','호르무즈','관세','프리미엄','타이트','증산','감산','차익실현','달러'];
+  const coreKw=['수요','공급','재고','가동','생산','정기보수','셧다운','수입','수출','오퍼','현물','선물','매수','매도','마진','원가','유가','나프타','벤젠','원료','제재','중동','호르무즈','프리미엄','타이트','증산','감산','차익실현','달러'];
   const causalKw=['영향','때문','따라','로 인해','부담','지지','압력','우려','확대','축소','증가','감소','상승','하락','강세','약세','타이트','완화'];
-  coreKw.forEach(k=>{if(t.includes(k))score+=2;});
-  causalKw.forEach(k=>{if(t.includes(k))score+=1.2;});
+  coreKw.forEach(k=>{if(t.includes(k))score+=0.55;});
+  causalKw.forEach(k=>{if(t.includes(k))score+=0.30;});
 
-  // 숫자/가격/증감 수치가 있는 문장은 정보 밀도가 높다고 판단
-  if(/[+$]?[0-9][0-9,.]*\s*(?:%|달러|위안|mt|톤|배럴|USD)?/i.test(t))score+=2;
-
-  // 해당 일자의 방향과 맞는 표현 우대
   const upKw=['상승','강세','증가','타이트','부족','감산','재고 감소','프리미엄 상승','매수'];
   const dnKw=['하락','약세','감소','과잉','증산','재고 증가','차익실현','매도','수요 부진'];
   const fltKw=['보합','관망','제한적','혼조','좁은 범위','균형'];
   const dirKws=dir==='상승'?upKw:dir==='하락'?dnKw:fltKw;
-  dirKws.forEach(k=>{if(t.includes(k))score+=1.8;});
+  dirKws.forEach(k=>{if(t.includes(k))score+=0.55;});
 
-  // 품목 고유 키워드
   const prodKw={
-    WTI:['WTI','원유','브렌트','OPEC','이란','호르무즈','재무부','제재'],
-    Benzene:['벤젠','Benzene','BZ','나프타','재고','Sinopec','FOB Korea'],
-    Styrene:['스티렌','Styrene','SM','벤젠','PS','ABS','CFR China','수출'],
-    Butadiene:['부타디엔','Butadiene','BD','합성고무','크래커','CFR China','선물']
+    WTI:['WTI','원유','브렌트','OPEC','이란','호르무즈','제재'],
+    Benzene:['벤젠','Benzene','BZ','나프타','Sinopec','FOB Korea'],
+    Styrene:['스티렌','Styrene','SM','벤젠','PS','ABS','CFR China'],
+    Butadiene:['부타디엔','Butadiene','BD','합성고무','크래커','CFR China']
   };
-  (prodKw[prod]||[]).forEach(k=>{if(t.toLowerCase().includes(k.toLowerCase()))score+=1;});
-
-  // 전망성 문장은 데일리 Summary 원인란에서는 감점
-  if(/전망|예상|향후|앞으로|가능성|것으로 보/.test(t))score-=isFactor?1:2;
-  // 지나치게 일반적인 문장 감점
-  if(t.length<25)score-=1;
+  (prodKw[prod]||[]).forEach(k=>{if(t.toLowerCase().includes(k.toLowerCase()))score+=0.35;});
+  if(/전망|예상|향후|앞으로|가능성|것으로 보/.test(t))score-=1.2;
   return score;
+}
+
+function specificityScore(text){
+  const t=String(text||'');
+  let score=0;
+  // 숫자/증감률/물량/가격/가동률 등 '근거'가 있는 팩터를 우선
+  if(/[+$]?\d[\d,.]*\s*(?:%|달러|위안|mt|톤|배럴|USD|kt|천톤|만톤|pp)?/i.test(t))score+=3.2;
+  if(/\b(?:Sinopec|CPC|YNCC|Lotte|Hengli|Shenghong|ZPC|Formosa|LG|SK|S-Oil|BASF|Asahi|Denka)\b/i.test(t))score+=1.8;
+  if(/중국|동중국|화동|한국|일본|인도|동북아|동남아|미국|유럽|여수|닝보|대만|싱가포르/.test(t))score+=1.3;
+  if(/가동률|정기보수|셧다운|재가동|생산능력|수출량|수입량|재고|항만|선물|오퍼|비드|프리미엄|스프레드/.test(t))score+=1.5;
+  return score;
+}
+
+function factorRelationScore(factor,ctx){
+  const f=String(factor||'');
+  const fNorm=normSummaryText(f);
+  const fThemes=getThemeHits(f);
+  const fTokens=getCauseTokens(f);
+  let score=0;
+
+  // 1순위: Commentary 원인 theme과 직접 일치
+  const causeThemeMatches=fThemes.filter(x=>ctx.causeThemes.includes(x));
+  const allThemeMatches=fThemes.filter(x=>ctx.themes.includes(x));
+  score+=causeThemeMatches.length*8.5;
+  score+=allThemeMatches.filter(x=>!causeThemeMatches.includes(x)).length*4.0;
+
+  // 2순위: Commentary 원인 표현의 실제 단어가 Factor에도 등장
+  let causeTokenMatches=0;
+  ctx.causeTokens.forEach(tok=>{if(fNorm.includes(tok))causeTokenMatches++;});
+  let tokenMatches=0;
+  ctx.tokens.forEach(tok=>{if(fNorm.includes(tok))tokenMatches++;});
+  score+=Math.min(causeTokenMatches,4)*2.6;
+  score+=Math.min(Math.max(tokenMatches-causeTokenMatches,0),4)*1.2;
+
+  // 3순위: 그 원인을 수치/회사/설비/지역 정보로 구체화하는 문장
+  score+=specificityScore(f);
+
+  // 4순위: 가격 방향/품목 관련성은 보조점수만 부여
+  score+=baseMarketScore(f,ctx.prod,ctx.dir);
+
+  // 직접 연결이 전혀 없으면 강한 감점 → 관련 팩터 우선 원칙 유지
+  if(causeThemeMatches.length===0 && causeTokenMatches===0){
+    if(allThemeMatches.length===0 && tokenMatches===0)score-=7;
+    else score-=2.5;
+  }
+
+  // 코멘터리와 문장 자체가 거의 복사 수준이면 '구체화'가 아니므로 감점
+  const sim=textSimilarity(f,ctx.text);
+  if(sim>=0.78)score-=4;
+  else if(sim>=0.62)score-=1.5;
+
+  return {score,fThemes,causeThemeMatches,allThemeMatches,causeTokenMatches,tokenMatches,specificity:specificityScore(f)};
 }
 
 function trimSummaryText(s,max=165){
@@ -489,10 +1223,18 @@ function trimSummaryText(s,max=165){
 function pickSummaryCommentary(txt,prod,dir,max=165){
   const items=splitSummaryText(txt);
   if(!items.length)return'';
-  const ranked=items.map((s,i)=>({s,i,score:summaryScore(s,prod,dir,false)}))
-    .sort((a,b)=>b.score-a.score||a.i-b.i);
+
+  // 코멘터리에서는 가격 방향과 원인 연결어가 같이 있는 문장을 우선
+  const ranked=items.map((s,i)=>{
+    let score=baseMarketScore(s,prod,dir);
+    if(/영향|때문|따라|로 인해|지지|부담|압력|우려|견인|끌어올|끌어내|차익실현/.test(s))score+=4;
+    if(getThemeHits(s).length)score+=getThemeHits(s).length*1.8;
+    // "상승/하락/보합으로 마감" 같은 결론만 있고 원인이 빈약하면 감점
+    if(/(?:상승|하락|보합)(?:으로)?\s*마감/.test(s) && getThemeHits(s).length===0)score-=3;
+    return {s,i,score};
+  }).sort((a,b)=>b.score-a.score||a.i-b.i);
+
   let best=ranked[0].s;
-  // 너무 짧은 핵심문장은 다음 고득점 문장과 자연스럽게 결합
   if(best.length<60 && ranked[1] && textSimilarity(best,ranked[1].s)<0.55){
     const joined=best+' '+ranked[1].s;
     if(joined.length<=max+25)best=joined;
@@ -504,25 +1246,196 @@ function pickSummaryFactors(txt,prod,dir,commentary,limit=2){
   const items=splitSummaryText(txt);
   if(!items.length)return[];
 
-  const ranked=items
-    .map((s,i)=>({s,i,score:summaryScore(s,prod,dir,true)}))
-    .filter(x=>textSimilarity(x.s,commentary)<0.62) // 코멘터리와 거의 같은 내용 제거
-    .sort((a,b)=>b.score-a.score||a.i-b.i);
+  const ctx=buildCommentaryContext(commentary,prod,dir);
+  const ranked=items.map((s,i)=>{
+    const rel=factorRelationScore(s,ctx);
+    return {s,i,...rel};
+  }).sort((a,b)=>b.score-a.score || b.specificity-a.specificity || a.i-b.i);
 
   const selected=[];
-  for(const x of ranked){
-    if(selected.some(y=>textSimilarity(y,x.s)>=0.58))continue; // 요인끼리 중복 제거
-    selected.push(x.s);
-    if(selected.length>=limit)break;
+  const coveredThemes=new Set();
+
+  // 첫 번째는 Commentary 원인을 가장 구체적으로 설명하는 팩터
+  if(ranked.length){
+    const first=ranked[0];
+    // 관련도가 지나치게 낮은 경우에도 fallback으로 시장 중요도가 가장 높은 1개는 허용
+    if(first.score>-4){
+      selected.push(first);
+      first.fThemes.forEach(x=>coveredThemes.add(x));
+    }
   }
 
-  // 요인이 있으면 최소 1개, 정보성이 충분할 때만 두 번째 요인 노출
-  if(selected.length>1){
-    const secondItem=ranked.find(x=>x.s===selected[1]);
-    const secondScore=secondItem?secondItem.score:0;
-    if(secondScore<2.5)selected.splice(1);
+  // 두 번째는 가능하면 Commentary의 '다른 원인'을 구체화하는 팩터 우선
+  for(const x of ranked){
+    if(selected.some(y=>y.s===x.s))continue;
+    if(selected.some(y=>textSimilarity(y.s,x.s)>=0.58))continue;
+
+    const uncovCause=x.causeThemeMatches.filter(t=>!coveredThemes.has(t));
+    const hasNewCause=uncovCause.length>0;
+    const strongSameCause=x.causeThemeMatches.length>0 && x.specificity>=3.0;
+
+    if(hasNewCause || strongSameCause){
+      // 두 번째 항목은 Commentary와 연결성이 실제로 있어야 함
+      if(x.score>=2.0){
+        selected.push(x);
+        x.fThemes.forEach(t=>coveredThemes.add(t));
+        break;
+      }
+    }
   }
-  return selected.map(x=>trimSummaryText(x,125));
+
+  // 다른 원인 매칭이 없을 때만 차선의 관련 팩터를 선택
+  if(selected.length<limit){
+    for(const x of ranked){
+      if(selected.some(y=>y.s===x.s))continue;
+      if(selected.some(y=>textSimilarity(y.s,x.s)>=0.58))continue;
+      if(x.score>=4.5){selected.push(x);break;}
+    }
+  }
+
+  return selected.slice(0,limit).map(x=>trimSummaryText(x.s,125));
+}
+
+
+function getAutoSummaryContent(prod,e){
+  if(!e)return{comment:'',factors:[]};
+  const comment=pickSummaryCommentary(e.commentary,prod,e.direction,165);
+  let factors=pickSummaryFactors(e.factors,prod,e.direction,comment,2);
+  const shownComment=comment || trimSummaryText((e.factors||e.outlook||'').split(/\n/)[0]||'',165);
+  if(!factors.length && e.outlook && shownComment){
+    factors=pickSummaryFactors(e.outlook,prod,e.direction,shownComment,1);
+  }
+  return{comment:shownComment||'',factors};
+}
+
+function getDisplayedSummaryContent(prod,e){
+  const auto=getAutoSummaryContent(prod,e);
+  const ov=getSummaryOverride(curDate,prod);
+  if(!ov)return{...auto,isManual:false};
+  const manualFactors=[ov.factor1,ov.factor2].map(x=>String(x||'').trim()).filter(Boolean);
+  return{
+    comment:String(ov.comment||'').trim() || auto.comment,
+    factors:manualFactors.length?manualFactors:auto.factors,
+    isManual:true
+  };
+}
+
+// ── Summary 수동 수정 UI ──
+function openSummaryEdit(){
+  if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
+  if(!checkAdmin())return;
+
+  const overlay=document.getElementById('summary-edit-overlay');
+  const panels=document.getElementById('summary-edit-panels');
+  const dateEl=document.getElementById('summary-edit-date');
+  if(!overlay||!panels)return;
+  if(dateEl)dateEl.textContent=curDate;
+
+  const order=['WTI','Benzene','Styrene','Butadiene'];
+  const names={WTI:'Crude Oil (WTI)',Benzene:'Benzene',Styrene:'Styrene',Butadiene:'Butadiene'};
+  const blocks=[];
+
+  order.forEach(p=>{
+    const e=(allData[p]||[]).find(x=>x.date===curDate);
+    if(!e)return;
+    const auto=getAutoSummaryContent(p,e);
+    const ov=getSummaryOverride(curDate,p);
+    const comment=ov?.comment ?? auto.comment;
+    const factor1=ov?.factor1 ?? (auto.factors[0]||'');
+    const factor2=ov?.factor2 ?? (auto.factors[1]||'');
+
+    blocks.push(`<div class="summary-edit-prod" data-prod="${p}">
+      <div class="summary-edit-prod-title">
+        <span>${names[p]}</span>
+        <button class="summary-edit-auto-btn" onclick="fillAutoSummaryProduct('${p}')">자동 추천값으로 되돌리기</button>
+      </div>
+      <div class="summary-edit-field">
+        <label>Commentary</label>
+        <textarea id="sum-edit-comment-${p}" rows="3">${escHtml(comment)}</textarea>
+      </div>
+      <div class="summary-edit-field">
+        <label>Factor 1</label>
+        <textarea id="sum-edit-factor1-${p}" rows="2">${escHtml(factor1)}</textarea>
+      </div>
+      <div class="summary-edit-field">
+        <label>Factor 2</label>
+        <textarea id="sum-edit-factor2-${p}" rows="2">${escHtml(factor2)}</textarea>
+      </div>
+    </div>`);
+  });
+
+  panels.innerHTML=blocks.length?blocks.join(''):'<div class="sum-empty">수정할 데이터가 없습니다.</div>';
+  overlay.classList.add('open');
+}
+
+function closeSummaryEdit(){
+  const overlay=document.getElementById('summary-edit-overlay');
+  if(overlay)overlay.classList.remove('open');
+}
+
+function fillAutoSummaryProduct(prod){
+  const e=(allData[prod]||[]).find(x=>x.date===curDate);
+  if(!e)return;
+  const auto=getAutoSummaryContent(prod,e);
+  const c=document.getElementById('sum-edit-comment-'+prod);
+  const f1=document.getElementById('sum-edit-factor1-'+prod);
+  const f2=document.getElementById('sum-edit-factor2-'+prod);
+  if(c)c.value=auto.comment||'';
+  if(f1)f1.value=auto.factors[0]||'';
+  if(f2)f2.value=auto.factors[1]||'';
+}
+
+function saveSummaryEdits(){
+  if(!curDate)return;
+  const order=['WTI','Benzene','Styrene','Butadiene'];
+  let count=0;
+
+  order.forEach(p=>{
+    const e=(allData[p]||[]).find(x=>x.date===curDate);
+    if(!e)return;
+    const c=document.getElementById('sum-edit-comment-'+p);
+    const f1=document.getElementById('sum-edit-factor1-'+p);
+    const f2=document.getElementById('sum-edit-factor2-'+p);
+    if(!c||!f1||!f2)return;
+
+    const auto=getAutoSummaryContent(p,e);
+    const value={
+      comment:c.value.trim(),
+      factor1:f1.value.trim(),
+      factor2:f2.value.trim(),
+      updatedAt:new Date().toISOString()
+    };
+
+    // 자동값과 완전히 같으면 override 자체를 제거해서 다시 자동 모드로 유지
+    const sameComment=value.comment===(auto.comment||'');
+    const sameF1=value.factor1===(auto.factors[0]||'');
+    const sameF2=value.factor2===(auto.factors[1]||'');
+    if(sameComment&&sameF1&&sameF2){
+      deleteSummaryOverride(curDate,p);
+    }else{
+      setSummaryOverride(curDate,p,value);
+      count++;
+    }
+  });
+
+  if(!persistSummaryOverrides()){
+    toast('❌ 요약 수정 저장 실패','err');
+    return;
+  }
+  safeBuildDailySummary();
+  closeSummaryEdit();
+  toast(count?`✅ 요약 수동 수정 ${count}개 품목 저장`:'✅ 자동 요약 상태로 저장','ok');
+}
+
+function resetSummaryDate(){
+  if(!curDate)return;
+  if(!confirm(curDate+'의 수동 Summary 수정값을 모두 지우고 자동 요약으로 복원하시겠습니까?'))return;
+  delete summaryOverrides[curDate];
+  if(!persistSummaryOverrides()){toast('❌ 자동복원 실패','err');return;}
+  safeBuildDailySummary();
+  // 열린 모달도 자동값으로 다시 채움
+  ['WTI','Benzene','Styrene','Butadiene'].forEach(fillAutoSummaryProduct);
+  toast('↺ 이 날짜 Summary를 자동 요약으로 복원했습니다','ok');
 }
 
 function safeBuildDailySummary(){
@@ -551,20 +1464,21 @@ function buildDailySummary(){
   const rows=existing.map(({p,e})=>{
     const dir=e.direction==='상승'?'up':e.direction==='하락'?'dn':'flt';
     const dirCls='sum-'+dir;
-    const priceDigits=p==='WTI'?2:2;
+    const priceDigits=2;
     const chg=e.change==null?'—':(Number(e.change)>0?'+':'')+Number(e.change).toFixed(2);
     const pct=e.changePct==null?'—':(Number(e.changePct)>0?'+':'')+Number(e.changePct).toFixed(2)+'%';
-    const comment=pickSummaryCommentary(e.commentary,p,e.direction,165);
-    const factors=pickSummaryFactors(e.factors,p,e.direction,comment,2);
-    const factorHtml=factors.length
-      ?`<div class="sum-factors ${dirCls}">${factors.map(f=>`<span class="sum-factor">${escHtml(f)}</span>`).join('')}</div>`
+
+    const shown=getDisplayedSummaryContent(p,e);
+    const factorHtml=shown.factors.length
+      ?`<div class="sum-factors ${dirCls}">${shown.factors.map(f=>`<span class="sum-factor">${escHtml(f)}</span>`).join('')}</div>`
       :'';
+
     return `<tr>
-      <td><div class="sum-prod-name">${names[p]}</div></td>
-      <td class="sum-num ${dirCls}">${Number(e.price).toLocaleString('en-US',{minimumFractionDigits:priceDigits,maximumFractionDigits:priceDigits})}</td>
-      <td class="sum-num ${dirCls}">${chg}</td>
-      <td class="sum-move ${dirCls}">${escHtml(e.direction||'보합')}<br>(${pct})</td>
-      <td><div class="sum-comment">${escHtml(comment||'코멘터리 없음')}</div>${factorHtml}</td>
+      <td data-label="품목"><div class="sum-prod-name">${names[p]}</div></td>
+      <td data-label="가격" class="sum-num ${dirCls}">${Number(e.price).toLocaleString('en-US',{minimumFractionDigits:priceDigits,maximumFractionDigits:priceDigits})}</td>
+      <td data-label="변동폭" class="sum-num ${dirCls}">${chg}</td>
+      <td data-label="등락" class="sum-move ${dirCls}">${escHtml(e.direction||'보합')}<br>(${pct})</td>
+      <td data-label="시황"><div class="sum-comment">${escHtml(shown.comment||'코멘터리 없음')}</div>${factorHtml}</td>
     </tr>`;
   }).join('');
 
@@ -1010,17 +1924,229 @@ function toast(m,t){
   e.style.background=t==='ok'?'#065F46':'#991B1B';
   setTimeout(()=>e.className='',3000);
 }
-function dlImage(){
-  // 임시로 grid를 4컬럼 가로 레이아웃으로 강제 후 캡처
-  const el=document.getElementById('grid');
-  const origStyle=el.style.cssText;
-  el.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:1400px;';
-  html2canvas(el,{backgroundColor:'#f9fafb',scale:2,width:1432,windowWidth:1600}).then(canvas=>{
-    el.style.cssText=origStyle;
-    const a=document.createElement('a');a.href=canvas.toDataURL();
-    a.download='DailyBrief_'+curDate+'.png';a.click();
-  }).catch(()=>el.style.cssText=origStyle);
+
+
+function reportEsc(v){
+  return String(v==null?'':v).replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
 }
+function reportText(v){
+  return reportEsc(String(v||'').trim()).replace(/\n/g,'<br>');
+}
+function renderReportDetailCard(prod,entry){
+  const cls=PCLS[prod];
+  if(!entry)return'';
+
+  const dir=entry.direction==='상승'?'up':entry.direction==='하락'?'dn':'flt';
+  const ps=Number(entry.changePct||0)>=0?'+':'';
+  const chg=entry.change==null?'—':(Number(entry.change)>=0?'+':'')+Number(entry.change).toFixed(2)+' USD';
+  const pct=entry.changePct==null?'—':ps+Number(entry.changePct).toFixed(2)+'%';
+
+  const commentary=entry.commentary
+    ?`<div class="report-detail-text commentary">${reportText(entry.commentary)}</div>`
+    :'<div class="report-detail-empty">내용 없음</div>';
+
+  const factors=entry.factors
+    ?`<div class="report-detail-text factors">${reportText(entry.factors)}</div>`
+    :'<div class="report-detail-empty">내용 없음</div>';
+
+  const outlook=entry.outlook
+    ?`<div class="report-detail-text">${reportText(entry.outlook)}</div>`
+    :'<div class="report-detail-empty">내용 없음</div>';
+
+  return `<div class="report-detail-card">
+    <div class="report-detail-bar ${cls}"></div>
+    <div class="report-detail-left">
+      <div class="report-detail-prod ${cls}">${reportEsc(prod)}</div>
+      <div class="report-detail-price ${dir}">${Number(entry.price).toFixed(2)}</div>
+      <div class="report-detail-change ${dir}">${chg}<br>${pct}</div>
+      <span class="report-detail-dir ${dir}">${reportEsc(entry.direction||'보합')}</span>
+    </div>
+    <div class="report-detail-right">
+      <div class="report-detail-section">
+        <div class="report-detail-label">Commentary</div>
+        ${commentary}
+      </div>
+      <div class="report-detail-section">
+        <div class="report-detail-label">Market Factors</div>
+        ${factors}
+      </div>
+      <div class="report-detail-section">
+        <div class="report-detail-label">Outlook</div>
+        ${outlook}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildReportCapture(){
+  const summary=document.getElementById('daily-summary-wrap');
+  const weekly=document.querySelector('.wk-wrap');
+  if(!summary||!weekly)return null;
+
+  const cap=document.createElement('div');
+  cap.id='daily-report-capture';
+  cap.style.position='fixed';
+  cap.style.left='-20000px';
+  cap.style.top='0';
+  cap.style.width='1432px';
+  cap.style.maxWidth='none';
+  cap.style.background='#F9FAFB';
+  cap.style.padding='18px 16px 22px';
+  cap.style.fontFamily='var(--sans)';
+  cap.style.color='#111827';
+  cap.style.boxSizing='border-box';
+
+  const dateTitle=document.createElement('div');
+  dateTitle.style.fontFamily='var(--disp)';
+  dateTitle.style.fontSize='28px';
+  dateTitle.style.fontWeight='900';
+  dateTitle.style.margin='0 0 12px 2px';
+  dateTitle.textContent=curDate||'—';
+  cap.appendChild(dateTitle);
+
+  // Summary: 화면과 같은 내용, 보고용 가로 표 형태
+  const summaryClone=summary.cloneNode(true);
+  summaryClone.style.width='1400px';
+  summaryClone.style.maxWidth='none';
+  summaryClone.style.margin='0 0 16px';
+  summaryClone.style.background='#fff';
+  summaryClone.style.boxShadow='none';
+  summaryClone.style.borderRadius='12px';
+  const summaryScroll=summaryClone.querySelector('.daily-summary-scroll');
+  if(summaryScroll)summaryScroll.style.overflow='visible';
+  const summaryTable=summaryClone.querySelector('.daily-summary-table');
+  if(summaryTable){
+    summaryTable.style.display='table';
+    summaryTable.style.width='100%';
+    summaryTable.style.minWidth='0';
+    summaryTable.style.tableLayout='fixed';
+  }
+  summaryClone.querySelectorAll('.daily-summary-table tbody').forEach(x=>x.style.display='table-row-group');
+  summaryClone.querySelectorAll('.daily-summary-table tr').forEach(x=>{
+    x.style.display='table-row';
+    x.style.margin='0';
+    x.style.border='0';
+  });
+  summaryClone.querySelectorAll('.daily-summary-table td').forEach(x=>{
+    x.style.display='table-cell';
+    x.style.width='';
+    x.style.maxWidth='';
+    x.style.textAlign='';
+    x.style.position='';
+  });
+  cap.appendChild(summaryClone);
+
+  // 상세: 저장할 때만 4개 품목을 "가로형 스트립"으로 재구성
+  const detailList=document.createElement('div');
+  detailList.className='report-detail-list';
+  detailList.innerHTML=PRODS.map(p=>{
+    const e=(allData[p]||[]).find(x=>x.date===curDate);
+    return renderReportDetailCard(p,e);
+  }).join('');
+  cap.appendChild(detailList);
+
+  // 주간 가격 요약
+  const weeklyClone=weekly.cloneNode(true);
+  weeklyClone.style.width='1400px';
+  weeklyClone.style.maxWidth='none';
+  weeklyClone.style.overflow='visible';
+  weeklyClone.style.background='#fff';
+  weeklyClone.style.boxShadow='none';
+  weeklyClone.style.borderRadius='12px';
+  const weeklyTable=weeklyClone.querySelector('.wk-table');
+  if(weeklyTable){
+    weeklyTable.style.width='100%';
+    weeklyTable.style.maxWidth='100%';
+    weeklyTable.style.tableLayout='fixed';
+  }
+  cap.appendChild(weeklyClone);
+
+  document.body.appendChild(cap);
+  return cap;
+}
+
+function captureReportCanvas(){
+  const cap=buildReportCapture();
+  if(!cap)return Promise.reject(new Error('보고서 영역 생성 실패'));
+
+  return html2canvas(cap,{
+    backgroundColor:'#F9FAFB',
+    scale:2,
+    width:1432,
+    windowWidth:1600,
+    useCORS:true
+  }).then(canvas=>{
+    cap.remove();
+    return canvas;
+  }).catch(err=>{
+    cap.remove();
+    throw err;
+  });
+}
+
+function dlReportImage(){
+  if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
+
+  captureReportCanvas().then(canvas=>{
+    const a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download='DailyBrief_Report_'+curDate+'.png';
+    a.click();
+    toast('✅ 보고 이미지 저장 완료','ok');
+  }).catch(err=>{
+    console.error('Report image error:',err);
+    toast('❌ 보고 이미지 저장 실패','err');
+  });
+}
+
+function dlReportPdf(){
+  if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
+
+  captureReportCanvas().then(canvas=>{
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true});
+
+    const pageW=pdf.internal.pageSize.getWidth();
+    const pageH=pdf.internal.pageSize.getHeight();
+    const margin=8;
+    const usableW=pageW-(margin*2);
+    const usableH=pageH-(margin*2);
+
+    // 캔버스 비율에 맞춰 A4 가로폭 기준으로 세로 분할
+    const pxPerMm=canvas.width/usableW;
+    const slicePx=Math.floor(usableH*pxPerMm);
+    let y=0;
+    let page=0;
+
+    while(y<canvas.height){
+      const h=Math.min(slicePx,canvas.height-y);
+      const slice=document.createElement('canvas');
+      slice.width=canvas.width;
+      slice.height=h;
+      const ctx=slice.getContext('2d');
+      ctx.fillStyle='#F9FAFB';
+      ctx.fillRect(0,0,slice.width,slice.height);
+      ctx.drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);
+
+      const img=slice.toDataURL('image/jpeg',0.96);
+      const drawH=h/pxPerMm;
+      if(page>0)pdf.addPage('a4','landscape');
+      pdf.addImage(img,'JPEG',margin,margin,usableW,drawH,undefined,'FAST');
+
+      y+=h;
+      page++;
+    }
+
+    pdf.save('DailyBrief_Report_'+curDate+'.pdf');
+    toast('✅ 보고 PDF 저장 완료','ok');
+  }).catch(err=>{
+    console.error('Report PDF error:',err);
+    toast('❌ PDF 저장 실패','err');
+  });
+}
+
 function copyMsg(){
   if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
 
