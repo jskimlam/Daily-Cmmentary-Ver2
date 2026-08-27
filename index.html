@@ -154,119 +154,105 @@ table{max-width:100%;}
 .summary-edit-foot{padding:14px 22px;border-top:1px solid #E5E7EB;background:#fff;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 
 
-/* ── 보고 이미지/PDF 전용 가로형 상세 레이아웃 ── */
-/* 실제 화면에는 사용하지 않고, 저장용 캡처 DOM에만 적용 */
-.report-detail-list{
+/* ── 보고 이미지/PDF 전용 2×2 컴팩트 카드 ── */
+/* 실제 화면에는 사용하지 않고, 저장용 캡처 DOM에서만 사용 */
+.report-compact-grid{
   width:1400px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:14px;
   margin:0 0 16px;
 }
-.report-detail-card{
-  position:relative;
-  display:grid;
-  grid-template-columns:250px minmax(0,1fr);
+.report-compact-card{
   background:#fff;
-  border:1px solid #D1D5DB;
+  border:1px solid var(--bd);
   border-radius:12px;
   overflow:hidden;
-  min-height:150px;
   box-shadow:none;
 }
-.report-detail-bar{
-  position:absolute;
-  left:0;top:0;bottom:0;
-  width:7px;
-}
-.report-detail-bar.wti{background:var(--wti);}
-.report-detail-bar.sm{background:var(--sm);}
-.report-detail-bar.bz{background:var(--bz);}
-.report-detail-bar.bd{background:var(--bd2);}
-.report-detail-left{
-  padding:17px 18px 15px 24px;
-  border-right:1px solid #E5E7EB;
+.report-compact-bar{height:6px;}
+.report-compact-bar.wti{background:var(--wti);}
+.report-compact-bar.sm{background:var(--sm);}
+.report-compact-bar.bz{background:var(--bz);}
+.report-compact-bar.bd{background:var(--bd2);}
+.report-compact-body{padding:12px 14px 13px;}
+.report-compact-head{
   display:flex;
-  flex-direction:column;
-  justify-content:center;
-  min-width:0;
-}
-.report-detail-prod{
-  font-family:var(--disp);
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-.report-detail-prod.wti{color:var(--wti);}
-.report-detail-prod.sm{color:var(--sm);}
-.report-detail-prod.bz{color:var(--bz);}
-.report-detail-prod.bd{color:var(--bd2);}
-.report-detail-price{
-  font-family:var(--disp);
-  font-size:34px;
-  font-weight:900;
-  line-height:1;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
   margin-bottom:8px;
 }
-.report-detail-change{
-  font-family:var(--mono);
-  font-size:12px;
-  font-weight:800;
-  line-height:1.45;
+.report-compact-left{min-width:0;flex:1;}
+.report-compact-prod{
+  font-family:var(--disp);
+  font-size:18px;
+  font-weight:900;
+  line-height:1.1;
+  margin-bottom:6px;
 }
-.report-detail-dir{
+.report-compact-prod.wti{color:var(--wti);}
+.report-compact-prod.sm{color:var(--sm);}
+.report-compact-prod.bz{color:var(--bz);}
+.report-compact-prod.bd{color:var(--bd2);}
+.report-compact-meta{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.report-compact-price{
+  font-family:var(--disp);
+  font-size:28px;
+  font-weight:900;
+  line-height:1;
+}
+.report-compact-delta{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:800;
+  line-height:1.35;
+}
+.report-compact-dir{
   display:inline-block;
-  margin-top:9px;
-  align-self:flex-start;
   padding:4px 10px;
   border-radius:20px;
   color:#fff;
-  font-size:11px;
+  font-size:10px;
   font-weight:900;
+  flex-shrink:0;
+  margin-top:1px;
 }
-.report-detail-dir.up{background:var(--up);}
-.report-detail-dir.dn{background:var(--dn);}
-.report-detail-dir.flt{background:var(--g3);}
-.report-detail-right{
-  display:grid;
-  grid-template-columns:1.15fr 1fr .85fr;
-  min-width:0;
-}
-.report-detail-section{
-  padding:14px 16px;
-  border-right:1px solid #E5E7EB;
-  min-width:0;
-}
-.report-detail-section:last-child{border-right:none;}
-.report-detail-label{
-  display:inline-block;
-  background:var(--highlight-bg);
-  border:1.5px solid #111;
-  border-radius:3px;
-  padding:2px 7px;
-  margin-bottom:7px;
-  font-family:var(--mono);
-  font-size:9px;
+.report-compact-dir.up{background:var(--up);}
+.report-compact-dir.dn{background:var(--dn);}
+.report-compact-dir.flt{background:var(--g3);}
+.report-compact-comment{
+  font-size:12px;
   font-weight:900;
-  text-transform:uppercase;
-}
-.report-detail-text{
-  font-size:11px;
+  color:#111827;
   line-height:1.5;
-  color:#111;
+  margin-bottom:6px;
   word-break:keep-all;
   overflow-wrap:anywhere;
 }
-.report-detail-text.commentary{
-  font-size:12px;
-  font-weight:800;
+.report-compact-factors{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
 }
-.report-detail-text.factors{
+.report-compact-factor{
   font-size:10.5px;
+  font-weight:700;
+  line-height:1.45;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
 }
-.report-detail-empty{
-  color:#9CA3AF;
+.report-compact-factor.up{color:var(--up);}
+.report-compact-factor.dn{color:var(--dn);}
+.report-compact-factor.flt{color:var(--flt);}
+.report-compact-empty{
   font-size:10px;
+  color:#9CA3AF;
 }
 
 /* ── 주간 테이블 ── */
@@ -1934,53 +1920,57 @@ function reportEsc(v){
 function reportText(v){
   return reportEsc(String(v||'').trim()).replace(/\n/g,'<br>');
 }
-function renderReportDetailCard(prod,entry){
-  const cls=PCLS[prod];
+function compactTrim(v,max=165){
+  return trimSummaryText(String(v||''),max);
+}
+function compactFactorTrim(v,max=82){
+  return trimSummaryText(String(v||''),max);
+}
+function renderCompactReportCard(prod,entry){
   if(!entry)return'';
-
+  const cls=PCLS[prod];
   const dir=entry.direction==='상승'?'up':entry.direction==='하락'?'dn':'flt';
-  const ps=Number(entry.changePct||0)>=0?'+':'';
-  const chg=entry.change==null?'—':(Number(entry.change)>=0?'+':'')+Number(entry.change).toFixed(2)+' USD';
-  const pct=entry.changePct==null?'—':ps+Number(entry.changePct).toFixed(2)+'%';
 
-  const commentary=entry.commentary
-    ?`<div class="report-detail-text commentary">${reportText(entry.commentary)}</div>`
-    :'<div class="report-detail-empty">내용 없음</div>';
+  const price=Number(entry.price||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const change=entry.change==null?'—':(Number(entry.change)>=0?'+':'')+Number(entry.change).toFixed(2)+' USD';
+  const pct=entry.changePct==null?'—':(Number(entry.changePct)>=0?'+':'')+Number(entry.changePct).toFixed(2)+'%';
 
-  const factors=entry.factors
-    ?`<div class="report-detail-text factors">${reportText(entry.factors)}</div>`
-    :'<div class="report-detail-empty">내용 없음</div>';
+  const commentary=compactTrim(entry.commentary||'',175) || compactTrim((entry.outlook||''),175) || '코멘터리 없음';
+  let factors=pickSummaryFactors(entry.factors||'',prod,entry.direction,entry.commentary||'',2)
+    .map(x=>compactFactorTrim(x,86))
+    .filter(Boolean);
 
-  const outlook=entry.outlook
-    ?`<div class="report-detail-text">${reportText(entry.outlook)}</div>`
-    :'<div class="report-detail-empty">내용 없음</div>';
+  if(!factors.length && entry.factors){
+    factors=String(entry.factors).split(/\n+/).map(x=>compactFactorTrim(x,86)).filter(Boolean).slice(0,2);
+  }
+  if(!factors.length && entry.outlook){
+    factors=[compactFactorTrim(entry.outlook,86)];
+  }
 
-  return `<div class="report-detail-card">
-    <div class="report-detail-bar ${cls}"></div>
-    <div class="report-detail-left">
-      <div class="report-detail-prod ${cls}">${reportEsc(prod)}</div>
-      <div class="report-detail-price ${dir}">${Number(entry.price).toFixed(2)}</div>
-      <div class="report-detail-change ${dir}">${chg}<br>${pct}</div>
-      <span class="report-detail-dir ${dir}">${reportEsc(entry.direction||'보합')}</span>
-    </div>
-    <div class="report-detail-right">
-      <div class="report-detail-section">
-        <div class="report-detail-label">Commentary</div>
-        ${commentary}
+  const factorHtml=factors.length
+    ? `<div class="report-compact-factors">${factors.map(f=>`<div class="report-compact-factor ${dir}">• ${reportEsc(f)}</div>`).join('')}</div>`
+    : '<div class="report-compact-empty">핵심 팩터 없음</div>';
+
+  return `<div class="report-compact-card">
+    <div class="report-compact-bar ${cls}"></div>
+    <div class="report-compact-body">
+      <div class="report-compact-head">
+        <div class="report-compact-left">
+          <div class="report-compact-prod ${cls}">${reportEsc(prod)}</div>
+          <div class="report-compact-meta">
+            <div class="report-compact-price ${dir}">${price}</div>
+            <div class="report-compact-delta ${dir}">${change} / ${pct}</div>
+          </div>
+        </div>
+        <div class="report-compact-dir ${dir}">${reportEsc(entry.direction||'보합')}</div>
       </div>
-      <div class="report-detail-section">
-        <div class="report-detail-label">Market Factors</div>
-        ${factors}
-      </div>
-      <div class="report-detail-section">
-        <div class="report-detail-label">Outlook</div>
-        ${outlook}
-      </div>
+      <div class="report-compact-comment">${reportEsc(commentary)}</div>
+      ${factorHtml}
     </div>
   </div>`;
 }
 
-function buildReportCapture(){
+function buildCompactReportCapture(){
   const summary=document.getElementById('daily-summary-wrap');
   const weekly=document.querySelector('.wk-wrap');
   if(!summary||!weekly)return null;
@@ -2006,7 +1996,6 @@ function buildReportCapture(){
   dateTitle.textContent=curDate||'—';
   cap.appendChild(dateTitle);
 
-  // Summary: 화면과 같은 내용, 보고용 가로 표 형태
   const summaryClone=summary.cloneNode(true);
   summaryClone.style.width='1400px';
   summaryClone.style.maxWidth='none';
@@ -2035,19 +2024,18 @@ function buildReportCapture(){
     x.style.maxWidth='';
     x.style.textAlign='';
     x.style.position='';
+    x.style.paddingLeft='';
   });
   cap.appendChild(summaryClone);
 
-  // 상세: 저장할 때만 4개 품목을 "가로형 스트립"으로 재구성
-  const detailList=document.createElement('div');
-  detailList.className='report-detail-list';
-  detailList.innerHTML=PRODS.map(p=>{
+  const detailGrid=document.createElement('div');
+  detailGrid.className='report-compact-grid';
+  detailGrid.innerHTML=PRODS.map(p=>{
     const e=(allData[p]||[]).find(x=>x.date===curDate);
-    return renderReportDetailCard(p,e);
+    return renderCompactReportCard(p,e);
   }).join('');
-  cap.appendChild(detailList);
+  cap.appendChild(detailGrid);
 
-  // 주간 가격 요약
   const weeklyClone=weekly.cloneNode(true);
   weeklyClone.style.width='1400px';
   weeklyClone.style.maxWidth='none';
@@ -2067,8 +2055,8 @@ function buildReportCapture(){
   return cap;
 }
 
-function captureReportCanvas(){
-  const cap=buildReportCapture();
+function captureCompactReportCanvas(){
+  const cap=buildCompactReportCapture();
   if(!cap)return Promise.reject(new Error('보고서 영역 생성 실패'));
 
   return html2canvas(cap,{
@@ -2089,7 +2077,7 @@ function captureReportCanvas(){
 function dlReportImage(){
   if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
 
-  captureReportCanvas().then(canvas=>{
+  captureCompactReportCanvas().then(canvas=>{
     const a=document.createElement('a');
     a.href=canvas.toDataURL('image/png');
     a.download='DailyBrief_Report_'+curDate+'.png';
@@ -2104,7 +2092,7 @@ function dlReportImage(){
 function dlReportPdf(){
   if(!curDate){toast('날짜를 먼저 선택하세요','err');return;}
 
-  captureReportCanvas().then(canvas=>{
+  captureCompactReportCanvas().then(canvas=>{
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true});
 
@@ -2114,17 +2102,17 @@ function dlReportPdf(){
     const usableW=pageW-(margin*2);
     const usableH=pageH-(margin*2);
 
-    // 캔버스 비율에 맞춰 A4 가로폭 기준으로 세로 분할
     const pxPerMm=canvas.width/usableW;
     const slicePx=Math.floor(usableH*pxPerMm);
+
     let y=0;
     let page=0;
-
     while(y<canvas.height){
       const h=Math.min(slicePx,canvas.height-y);
       const slice=document.createElement('canvas');
       slice.width=canvas.width;
       slice.height=h;
+
       const ctx=slice.getContext('2d');
       ctx.fillStyle='#F9FAFB';
       ctx.fillRect(0,0,slice.width,slice.height);
@@ -2132,6 +2120,7 @@ function dlReportPdf(){
 
       const img=slice.toDataURL('image/jpeg',0.96);
       const drawH=h/pxPerMm;
+
       if(page>0)pdf.addPage('a4','landscape');
       pdf.addImage(img,'JPEG',margin,margin,usableW,drawH,undefined,'FAST');
 
