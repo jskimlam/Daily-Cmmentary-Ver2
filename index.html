@@ -2154,16 +2154,15 @@ function buildDetailImageCapture(){
   dateTitle.textContent=curDate||'—';
   cap.appendChild(dateTitle);
 
-  // 실제 화면의 상세 카드 구조를 그대로 사용하되,
-  // 상세 이미지에서는 4품목이 세로로 길게 이어지도록 1열 배치
+  // 상세 이미지는 실제 화면 카드 디자인을 그대로 유지하고,
+  // 4품목이 현재처럼 4열 가로 배치된 상태로 저장
   const gridClone=grid.cloneNode(true);
   gridClone.style.display='grid';
-  gridClone.style.gridTemplateColumns='1fr';
+  gridClone.style.gridTemplateColumns='repeat(4,1fr)';
   gridClone.style.gap='16px';
   gridClone.style.width='1400px';
   gridClone.style.maxWidth='none';
   gridClone.style.margin='0 0 16px';
-  gridClone.style.alignItems='stretch';
   cap.appendChild(gridClone);
 
   const weeklyClone=weekly.cloneNode(true);
